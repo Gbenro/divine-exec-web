@@ -150,7 +150,7 @@
                     </div>
                 </div>
 
-                <form class="contact-form" id="contactForm">
+                <form class="contact-form" id="contactForm" action="/api/contact" method="POST">
                     <div class="form-group">
                         <label for="name">Full Name</label>
                         <input type="text" id="name" name="name" required placeholder="Your name">
@@ -184,7 +184,8 @@
                         <textarea id="message" name="message" rows="4" placeholder="Tell us about your transportation needs..."></textarea>
                     </div>
 
-                    <button type="submit" class="btn btn-primary btn-full">Send Inquiry</button>
+                    <div id="formMessage" class="form-message" style="display: none;"></div>
+                    <button type="submit" class="btn btn-primary btn-full" id="submitBtn">Send Inquiry</button>
                 </form>
             </div>
         </div>
@@ -237,11 +238,56 @@
         });
 
         // Form submission handler
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            // In production, this would send data to a backend
-            alert('Thank you for your inquiry! We will contact you shortly.');
-            this.reset();
+
+            const form = this;
+            const submitBtn = document.getElementById('submitBtn');
+            const formMessage = document.getElementById('formMessage');
+            const originalBtnText = submitBtn.textContent;
+
+            // Disable button and show loading state
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+            formMessage.style.display = 'none';
+
+            // Collect form data
+            const formData = {
+                name: form.name.value,
+                email: form.email.value,
+                phone: form.phone.value,
+                service: form.service.value,
+                message: form.message.value
+            };
+
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    formMessage.textContent = data.message || 'Thank you for your inquiry! We will contact you shortly.';
+                    formMessage.className = 'form-message success';
+                    formMessage.style.display = 'block';
+                    form.reset();
+                } else {
+                    throw new Error(data.error || 'Form submission failed');
+                }
+            } catch (error) {
+                formMessage.textContent = 'Sorry, there was an error sending your message. Please try again or call us directly.';
+                formMessage.className = 'form-message error';
+                formMessage.style.display = 'block';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalBtnText;
+            }
         });
 
         // Navbar background on scroll
