@@ -216,14 +216,21 @@
 - `styles.css` - All styles and responsive design
 - CSS variables defined in `:root` for easy theming
 
+### Recent Updates (March 28, 2026)
+- ✅ **High-quality hero background imagery** - Black luxury SUV added to hero section
+  - Source: Professional royalty-free imagery from Unsplash
+  - Implementation: Dimmed overlay for optimal text readability
+  - Live at: https://default-green.vercel.app
+
 ### Future Enhancements
 - Custom logo design (beyond wordmark)
-- High-quality hero background imagery
-- Fleet photography
-- Favicon and social media graphics
-- Brand application to business cards, vehicles, uniforms
+- Custom fleet photography (our Chevrolet Suburban with Chicago backgrounds)
+- Favicon refinement and social media graphics
+- Marketing materials (business cards, brochures)
+- Brand application to vehicles and uniforms
+- Additional vehicle imagery throughout website sections
 
 ---
 
 *Brand guide created by Iris, Lead Designer - Divine Executive Chauffeurs*
-*Last updated: March 27, 2026*
+*Last updated: March 28, 2026*
