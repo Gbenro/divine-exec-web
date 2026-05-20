@@ -639,6 +639,107 @@ section {
     margin-bottom: 0;
 }
 
+/* Booking Page */
+.booking-page {
+    padding-top: 84px;
+    background: var(--color-off-white);
+}
+
+.booking-hero {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    color: var(--color-white);
+    padding: 70px 0;
+}
+
+.booking-hero-inner {
+    max-width: 760px;
+    text-align: center;
+}
+
+.booking-hero p {
+    color: rgba(255, 255, 255, 0.85);
+    margin: 12px auto 0;
+}
+
+.booking-content {
+    padding: 80px 0;
+}
+
+.booking-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 30px;
+    align-items: start;
+}
+
+.booking-form .section-title,
+.booking-form .section-subtitle {
+    text-align: left;
+}
+
+.booking-form .section-subtitle {
+    margin-bottom: 30px;
+}
+
+.booking-qr {
+    background: var(--color-white);
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+    padding: 28px;
+    text-align: center;
+}
+
+.booking-qr h3 {
+    margin-bottom: 8px;
+    color: var(--color-primary);
+}
+
+.booking-qr p {
+    color: var(--color-text-light);
+}
+
+#bookingQrImage {
+    width: 100%;
+    max-width: 260px;
+    height: auto;
+    margin: 16px auto;
+    border: 8px solid var(--color-off-white);
+    border-radius: 8px;
+    display: block;
+}
+
+.booking-qr-url {
+    font-size: 0.85rem;
+    word-break: break-word;
+    margin-bottom: 0;
+}
+
+.qr-downloads {
+    display: grid;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.qr-downloads .btn {
+    width: 100%;
+    text-align: center;
+}
+
+.booking-qr-note {
+    font-size: 0.85rem;
+    margin-top: 12px;
+    margin-bottom: 0;
+}
+
+.booking-nav-links {
+    position: static;
+    width: auto;
+    height: auto;
+    flex-direction: row;
+    background: transparent;
+    padding: 0;
+}
+
 /* Responsive Design */
 @media (max-width: 992px) {
     .stats-grid {
@@ -656,9 +757,37 @@ section {
         grid-template-columns: repeat(2, 1fr);
         gap: 24px;
     }
+
+    .booking-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 768px) {
+    .booking-nav-links {
+        position: static;
+        right: auto;
+        width: auto;
+        height: auto;
+        flex-direction: row;
+        justify-content: flex-end;
+        background: transparent;
+        padding: 0;
+        gap: 20px;
+    }
+
+    .booking-page {
+        padding-top: 72px;
+    }
+
+    .booking-content {
+        padding: 60px 0;
+    }
+
+    .booking-qr {
+        padding: 24px;
+    }
+
     .nav-toggle {
         display: flex;
     }

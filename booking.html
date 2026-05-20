@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Book your chauffeur service with Divine Executive Chauffeurs. Submit trip details and scan a QR code to continue booking on mobile.">
+    <title>Book a Ride | Divine Executive Chauffeurs</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar scrolled">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">&#9830;</span>
+                Divine Executive Chauffeurs
+            </a>
+            <ul class="nav-links booking-nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#booking-form">Booking Form</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="booking-page">
+        <section class="booking-hero">
+            <div class="container booking-hero-inner">
+                <h1>Book Your Chauffeur Service</h1>
+                <p>Share your trip details and our team will confirm availability and pricing right away.</p>
+            </div>
+        </section>
+
+        <section class="booking-content" id="booking-form">
+            <div class="container booking-grid">
+                <form class="contact-form booking-form" id="bookingForm" action="/api/contact" method="POST">
+                    <h2 class="section-title">Trip Request</h2>
+                    <p class="section-subtitle">Complete this form and we will contact you to finalize your reservation.</p>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" required placeholder="Your name">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input type="tel" id="phone" name="phone" required placeholder="(312) 555-1234">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required placeholder="your@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="service">Service Type</label>
+                            <select id="service" name="service" required>
+                                <option value="">Select a service</option>
+                                <option value="corporate">Corporate Transportation</option>
+                                <option value="airport">Airport Transfer</option>
+                                <option value="event">Special Event</option>
+                                <option value="hourly">Hourly Charter</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pickupDate">Pickup Date</label>
+                            <input type="date" id="pickupDate" name="pickupDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="pickupTime">Pickup Time</label>
+                            <input type="time" id="pickupTime" name="pickupTime" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pickupLocation">Pickup Location</label>
+                        <input type="text" id="pickupLocation" name="pickupLocation" required placeholder="Street address or terminal">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dropoffLocation">Drop-off Location</label>
+                        <input type="text" id="dropoffLocation" name="dropoffLocation" required placeholder="Street address or destination">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Additional Notes</label>
+                        <textarea id="message" name="message" rows="4" placeholder="Flight number, number of passengers, luggage details, etc."></textarea>
+                    </div>
+
+                    <div id="formMessage" class="form-message" style="display: none;"></div>
+                    <button type="submit" class="btn btn-primary btn-full" id="submitBtn">Submit Booking Request</button>
+                </form>
+
+                <aside class="booking-qr">
+                    <h3>Scan to Book on Mobile</h3>
+                    <p>Open this booking page instantly on your phone by scanning the QR code.</p>
+                    <img id="bookingQrImage" alt="QR code linking to this booking page">
+                    <p class="booking-qr-url" id="bookingQrUrl"></p>
+                    <div class="qr-downloads">
+                        <a id="downloadQrPng" class="btn btn-primary" download="divine-booking-qr.png">Download PNG</a>
+                        <a id="downloadQrSvg" class="btn" download="divine-booking-qr.svg">Download SVG</a>
+                    </div>
+                    <p class="booking-qr-note">Use the downloaded file for print materials like business cards.</p>
+                </aside>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-icon">&#9830;</span>
+                    <span>Divine Executive Chauffeurs LLC</span>
+                </div>
+                <p class="footer-tagline">Premium executive transportation in Chicago</p>
+                <p class="footer-copyright">&copy; 2026 Divine Executive Chauffeurs LLC. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const bookingPageUrl = window.location.href;
+        const qrImage = document.getElementById('bookingQrImage');
+        const qrUrl = document.getElementById('bookingQrUrl');
+        const qrPngUrl = `https://api.qrserver.com/v1/create-qr-code/?size=1200x1200&format=png&data=${encodeURIComponent(bookingPageUrl)}`;
+        const qrSvgUrl = `https://api.qrserver.com/v1/create-qr-code/?size=1200x1200&format=svg&data=${encodeURIComponent(bookingPageUrl)}`;
+        qrImage.src = qrPngUrl;
+        qrUrl.textContent = bookingPageUrl;
+        document.getElementById('downloadQrPng').href = qrPngUrl;
+        document.getElementById('downloadQrSvg').href = qrSvgUrl;
+
+        document.getElementById('bookingForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const form = this;
+            const submitBtn = document.getElementById('submitBtn');
+            const formMessage = document.getElementById('formMessage');
+            const originalBtnText = submitBtn.textContent;
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+            formMessage.style.display = 'none';
+
+            const formData = {
+                name: form.name.value,
+                email: form.email.value,
+                phone: form.phone.value,
+                service: form.service.value,
+                message: [
+                    `Pickup date: ${form.pickupDate.value}`,
+                    `Pickup time: ${form.pickupTime.value}`,
+                    `Pickup location: ${form.pickupLocation.value}`,
+                    `Drop-off location: ${form.dropoffLocation.value}`,
+                    form.message.value ? `Notes: ${form.message.value}` : ''
+                ].filter(Boolean).join('\n')
+            };
+
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Accept: 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    formMessage.textContent = data.message || 'Thank you. Your booking request was sent successfully.';
+                    formMessage.className = 'form-message success';
+                    formMessage.style.display = 'block';
+                    form.reset();
+                } else {
+                    throw new Error(data.error || 'Form submission failed');
+                }
+            } catch (error) {
+                formMessage.textContent = 'Sorry, there was an error sending your booking request. Please call us directly.';
+                formMessage.className = 'form-message error';
+                formMessage.style.display = 'block';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalBtnText;
+            }
+        });
+    </script>
+</body>
+</html>
