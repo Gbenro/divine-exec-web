@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Book your chauffeur service with Divine Executive Chauffeurs. Submit trip details and scan a QR code to continue booking on mobile.">
+    <meta name="description" content="Book your chauffeur service with Divine Executive Chauffeurs. Submit trip details and request your ride.">
     <title>Book a Ride | Divine Executive Chauffeurs</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -96,18 +96,6 @@
                     <div id="formMessage" class="form-message" style="display: none;"></div>
                     <button type="submit" class="btn btn-primary btn-full" id="submitBtn">Submit Booking Request</button>
                 </form>
-
-                <aside class="booking-qr">
-                    <h3>Scan to Book on Mobile</h3>
-                    <p>Open this booking page instantly on your phone by scanning the QR code.</p>
-                    <img id="bookingQrImage" alt="QR code linking to this booking page">
-                    <p class="booking-qr-url" id="bookingQrUrl"></p>
-                    <div class="qr-downloads">
-                        <a id="downloadQrPng" class="btn btn-primary" download="divine-booking-qr.png">Download PNG</a>
-                        <a id="downloadQrSvg" class="btn" download="divine-booking-qr.svg">Download SVG</a>
-                    </div>
-                    <p class="booking-qr-note">Use the downloaded file for print materials like business cards.</p>
-                </aside>
             </div>
         </section>
     </main>
@@ -126,16 +114,6 @@
     </footer>
 
     <script>
-        const bookingPageUrl = window.location.href;
-        const qrImage = document.getElementById('bookingQrImage');
-        const qrUrl = document.getElementById('bookingQrUrl');
-        const qrPngUrl = `https://api.qrserver.com/v1/create-qr-code/?size=1200x1200&format=png&data=${encodeURIComponent(bookingPageUrl)}`;
-        const qrSvgUrl = `https://api.qrserver.com/v1/create-qr-code/?size=1200x1200&format=svg&data=${encodeURIComponent(bookingPageUrl)}`;
-        qrImage.src = qrPngUrl;
-        qrUrl.textContent = bookingPageUrl;
-        document.getElementById('downloadQrPng').href = qrPngUrl;
-        document.getElementById('downloadQrSvg').href = qrSvgUrl;
-
         document.getElementById('bookingForm').addEventListener('submit', async function (e) {
             e.preventDefault();
 

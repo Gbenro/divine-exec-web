@@ -667,7 +667,7 @@ section {
 
 .booking-grid {
     display: grid;
-    grid-template-columns: 1.6fr 1fr;
+    grid-template-columns: 1fr;
     gap: 30px;
     align-items: start;
 }
