@@ -71,33 +71,30 @@ export default async function handler(req, res) {
       }
     }
 
-    // Save to Airtable if this is a booking submission
-    if (service && service.startsWith('Booking') && process.env.AIRTABLE_API_KEY && process.env.AIRTABLE_BASE_ID) {
+    // Save to Supabase if this is a booking submission
+    if (service && service.startsWith('Booking') && process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
       const bookingFields = parseBookingFields(message);
-      await fetch(`https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}/Bookings`, {
+      await fetch(`${process.env.SUPABASE_URL}/rest/v1/bookings`, {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
-          'Content-Type': 'application/json'
+          apikey: process.env.SUPABASE_SERVICE_ROLE_KEY,
+          Authorization: `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`,
+          'Content-Type': 'application/json',
+          Prefer: 'return=minimal'
         },
         body: JSON.stringify({
-          records: [{
-            fields: {
-              Name: name,
-              Email: email,
-              Phone: phone || '',
-              Service: service.replace('Booking — ', ''),
-              Date: bookingFields.date,
-              Time: bookingFields.time,
-              Pickup: bookingFields.pickup,
-              Dropoff: bookingFields.dropoff,
-              Notes: bookingFields.notes,
-              Status: 'Pending',
-              Created: new Date().toISOString()
-            }
-          }]
+          name,
+          email,
+          phone: phone || '',
+          service: service.replace('Booking — ', ''),
+          date: bookingFields.date,
+          time: bookingFields.time,
+          pickup: bookingFields.pickup,
+          dropoff: bookingFields.dropoff,
+          notes: bookingFields.notes,
+          status: 'pending'
         })
-      }).catch(err => console.error('Airtable write failed:', err));
+      }).catch(err => console.error('Supabase write failed:', err));
     }
 
     return res.status(200).json({

@@ -6,39 +6,45 @@ export default async function handler(req, res) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
 
-  const airtableKey = process.env.AIRTABLE_API_KEY;
-  const airtableBase = process.env.AIRTABLE_BASE_ID;
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-  if (!airtableKey || !airtableBase) {
-    return res.status(200).json({ bookings: [], warning: 'Airtable not configured' });
+  if (!supabaseUrl || !supabaseKey) {
+    return res.status(200).json({ bookings: [], warning: 'Supabase not configured — add SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY to Vercel env vars.' });
   }
 
   try {
-    const url = `https://api.airtable.com/v0/${airtableBase}/Bookings?sort[0][field]=Created&sort[0][direction]=desc&maxRecords=200`;
-    const response = await fetch(url, {
-      headers: { Authorization: `Bearer ${airtableKey}` }
-    });
+    const response = await fetch(
+      `${supabaseUrl}/rest/v1/bookings?select=*&order=created_at.desc&limit=200`,
+      {
+        headers: {
+          apikey: supabaseKey,
+          Authorization: `Bearer ${supabaseKey}`,
+          'Content-Type': 'application/json'
+        }
+      }
+    );
 
     if (!response.ok) {
       const body = await response.text();
-      console.error('Airtable fetch failed:', body);
-      return res.status(200).json({ bookings: [], warning: 'Could not load from Airtable' });
+      console.error('Supabase fetch failed:', body);
+      return res.status(200).json({ bookings: [], warning: 'Could not load bookings from Supabase.' });
     }
 
-    const data = await response.json();
-    const bookings = (data.records || []).map(r => ({
+    const records = await response.json();
+    const bookings = records.map(r => ({
       id: r.id,
-      name: r.fields.Name || '',
-      email: r.fields.Email || '',
-      phone: r.fields.Phone || '',
-      service: r.fields.Service || '',
-      date: r.fields.Date || '',
-      time: r.fields.Time || '',
-      pickup: r.fields.Pickup || '',
-      dropoff: r.fields.Dropoff || '',
-      notes: r.fields.Notes || '',
-      status: (r.fields.Status || 'pending').toLowerCase(),
-      created: r.fields.Created || r.createdTime
+      name: r.name || '',
+      email: r.email || '',
+      phone: r.phone || '',
+      service: r.service || '',
+      date: r.date || '',
+      time: r.time || '',
+      pickup: r.pickup || '',
+      dropoff: r.dropoff || '',
+      notes: r.notes || '',
+      status: (r.status || 'pending').toLowerCase(),
+      created: r.created_at
     }));
 
     return res.status(200).json({ bookings });
