@@ -1171,10 +1171,27 @@ function submitBooking(){
     pickup:b.pickup||'TBD',dropoff:b.dropoff||'TBD'
   };
   state.bookings.unshift(newEntry);
-  // hide steps bar
+  // hide steps bar / show confirmation immediately (optimistic)
   document.querySelectorAll('.bstep').forEach(el=>el.classList.remove('active'));
   document.getElementById('bstep-done').classList.add('active');
   document.getElementById('steps-bar').style.display='none';
+  // Deliver the booking request to the business via the existing notification endpoint.
+  const dateFormatted=b.date?new Date(b.date+'T12:00:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}):'Not specified';
+  const bookingMessage=
+    'New booking request submitted from the website.\n'+
+    'Date: '+dateFormatted+'\n'+
+    'Time: '+(b.time||'Not specified')+'\n'+
+    'Pickup: '+(b.pickup||'Not provided')+'\n'+
+    'Drop-off: '+(b.dropoff||'Not provided')+'\n'+
+    'Special requests: '+(b.notes||'None');
+  fetch('/api/contact',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      name:b.name,email:b.email,phone:b.phone,
+      service:'Booking — '+(b.service||'General'),message:bookingMessage
+    })
+  }).catch(err=>console.error('Booking notification failed:',err));
 }
 
 // ─── DASHBOARD ───
