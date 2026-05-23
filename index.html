@@ -1,377 +1,1248 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Divine Executive Chauffeurs - Premium executive transportation services in Chicago. Professional, reliable, and luxurious chauffeur services for business and leisure.">
-    <title>Divine Executive Chauffeurs | Premium Chicago Transportation</title>
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Divine Executive Chauffeurs | Premium Chicago Transportation</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --gold:#C9A84C;
+  --gold-light:#E8C96A;
+  --gold-dark:#A07830;
+  --gold-faint:rgba(201,168,76,0.12);
+  --gold-border:rgba(201,168,76,0.25);
+  --black:#0A0A0A;
+  --black-rich:#111111;
+  --black-card:#161616;
+  --black-hover:#1e1e1e;
+  --white:#F8F4EE;
+  --white-muted:#C8C0B0;
+  --white-dim:rgba(248,244,238,0.5);
+  --serif:'Cormorant Garamond',serif;
+  --sans:'Montserrat',sans-serif;
+  --radius:4px;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{background:var(--black);color:var(--white);font-family:var(--sans);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* ── UTILS ── */
+.gold-text{background:linear-gradient(135deg,var(--gold-dark) 0%,var(--gold-light) 45%,var(--gold) 70%,var(--gold-dark) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.eyebrow{font-size:.6rem;letter-spacing:.45em;text-transform:uppercase;color:var(--gold);font-weight:600;display:block;margin-bottom:14px}
+.section-title{font-family:var(--serif);font-size:clamp(2rem,6vw,3rem);font-weight:300;color:var(--white);line-height:1.2}
+.divider{display:flex;align-items:center;gap:12px;margin:14px 0}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.divider span{font-size:.58rem;letter-spacing:.35em;text-transform:uppercase;color:var(--white-muted);white-space:nowrap}
+.page{display:none}
+.page.active{display:block}
+.btn-gold{background:linear-gradient(135deg,var(--gold-dark),var(--gold),var(--gold-light));color:var(--black);border:none;padding:15px 32px;font-size:.66rem;letter-spacing:.28em;text-transform:uppercase;font-family:var(--sans);font-weight:700;cursor:pointer;width:100%;transition:opacity .25s;border-radius:var(--radius)}
+.btn-gold:hover{opacity:.88}
+.btn-outline{background:transparent;border:1px solid var(--gold-border);color:var(--gold);padding:14px 28px;font-size:.64rem;letter-spacing:.25em;text-transform:uppercase;font-family:var(--sans);font-weight:600;cursor:pointer;width:100%;transition:all .25s;border-radius:var(--radius)}
+.btn-outline:hover{border-color:var(--gold);background:rgba(201,168,76,.06)}
+
+/* ── NAV (mobile-first) ── */
+nav{
+  position:sticky;top:0;z-index:200;
+  background:rgba(10,10,10,.96);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--gold-border);
+  padding:0 16px;
+  height:60px;
+  display:flex;align-items:center;justify-content:space-between
+}
+.nav-logo{font-family:var(--serif);font-size:1rem;letter-spacing:.1em;font-weight:500;cursor:pointer}
+.nav-logo small{display:block;font-family:var(--sans);font-size:.48rem;letter-spacing:.4em;color:var(--gold);text-transform:uppercase;margin-top:1px}
+.hamburger{background:none;border:none;cursor:pointer;padding:6px;display:flex;flex-direction:column;gap:5px}
+.hamburger span{display:block;width:22px;height:1.5px;background:var(--gold);transition:all .3s}
+.hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+.mobile-menu{
+  position:absolute;top:60px;left:0;right:0;
+  background:rgba(10,10,10,.98);
+  border-bottom:1px solid var(--gold-border);
+  padding:0;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s
+}
+.mobile-menu.open{max-height:400px;padding:16px 0}
+.mobile-menu a{display:block;padding:14px 24px;font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:var(--white-muted);text-decoration:none;border-bottom:1px solid rgba(201,168,76,.07);transition:color .2s}
+.mobile-menu a:last-child{border-bottom:none}
+.mobile-menu a:hover,.mobile-menu a.active{color:var(--gold)}
+.nav-desktop{display:none}
+@media(min-width:768px){
+  nav{padding:0 40px;height:68px}
+  .hamburger{display:none}
+  .mobile-menu{display:none}
+  .nav-desktop{display:flex;align-items:center;gap:32px}
+  .nav-desktop a{color:var(--white-muted);text-decoration:none;font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;font-weight:500;transition:color .25s;cursor:pointer}
+  .nav-desktop a:hover{color:var(--gold)}
+  .nav-cta-btn{background:transparent;border:1px solid var(--gold-border);color:var(--gold);padding:9px 20px;font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;font-family:var(--sans);font-weight:600;cursor:pointer;transition:all .25s}
+  .nav-cta-btn:hover{background:var(--gold);color:var(--black)}
+}
+
+/* ══════════════════════════════════
+   PAGE: MAIN WEBSITE
+══════════════════════════════════ */
+
+/* ── HERO ── */
+#hero{
+  min-height:100svh;
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;
+  padding:80px 24px 60px;
+  position:relative;overflow:hidden
+}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 90% 70% at 50% 40%,rgba(201,168,76,.05) 0%,transparent 65%)}
+.hero-ring{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(45deg);border:1px solid rgba(201,168,76,.05);border-radius:var(--radius)}
+.hero-content{position:relative;z-index:2;max-width:560px;margin:0 auto}
+.crown-wrap{width:52px;height:38px;margin:0 auto 20px}
+.crown-wrap svg{width:100%;height:100%}
+.d-mono{font-family:var(--serif);font-size:clamp(5rem,20vw,9rem);font-weight:600;line-height:.9;display:block;margin-bottom:0}
+.brand-name{font-family:var(--serif);font-size:clamp(1.6rem,7vw,2.8rem);font-weight:300;letter-spacing:.3em;text-transform:uppercase;color:var(--white)}
+.brand-executive{display:flex;align-items:center;gap:12px;justify-content:center;margin:6px 0 2px}
+.brand-executive::before,.brand-executive::after{content:'';width:30px;height:1px;background:var(--gold)}
+.brand-executive span{font-size:.7rem;letter-spacing:.55em;text-transform:uppercase;font-weight:400;color:var(--white)}
+.brand-chauffeurs{display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:28px}
+.brand-chauffeurs::before,.brand-chauffeurs::after{content:'';width:28px;height:1px;background:var(--gold)}
+.brand-chauffeurs span{font-size:.58rem;letter-spacing:.55em;text-transform:uppercase;color:var(--gold);font-weight:700}
+.hero-tagline{font-family:var(--serif);font-size:clamp(1.1rem,4vw,1.7rem);font-style:italic;font-weight:300;color:var(--white-muted);margin-bottom:6px}
+.hero-pillars{font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:36px}
+.hero-btns{display:flex;flex-direction:column;gap:12px;max-width:320px;margin:0 auto}
+@media(min-width:480px){.hero-btns{flex-direction:row}.hero-btns .btn-gold,.hero-btns .btn-outline{flex:1}}
+
+/* ── STATS ── */
+#stats{
+  background:var(--black-rich);
+  border-top:1px solid var(--gold-border);
+  border-bottom:1px solid var(--gold-border);
+  padding:28px 16px
+}
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:rgba(201,168,76,.1);max-width:600px;margin:0 auto}
+.stat-cell{background:var(--black-rich);padding:20px 16px;text-align:center}
+.stat-n{font-family:var(--serif);font-size:2rem;font-weight:600;display:block;line-height:1}
+.stat-l{font-size:.55rem;letter-spacing:.25em;text-transform:uppercase;color:var(--white-muted);display:block;margin-top:5px}
+@media(min-width:600px){.stats-grid{grid-template-columns:repeat(4,1fr)}}
+
+/* ── SERVICES ── */
+#services{padding:72px 16px}
+.section-head{text-align:center;margin-bottom:48px}
+.svc-grid{display:grid;gap:1px;background:var(--gold-faint)}
+.svc-card{background:var(--black-card);padding:36px 28px;position:relative;overflow:hidden;transition:background .25s}
+.svc-card:active{background:var(--black-hover)}
+.svc-top-bar{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;transition:opacity .3s}
+.svc-card:hover .svc-top-bar{opacity:1}
+.svc-ico{width:46px;height:46px;border:1px solid var(--gold-border);display:flex;align-items:center;justify-content:center;margin-bottom:22px}
+.svc-ico svg{width:22px;height:22px;stroke:var(--gold);fill:none;stroke-width:1.5}
+.svc-name{font-family:var(--serif);font-size:1.3rem;font-weight:500;color:var(--white);margin-bottom:10px}
+.svc-desc{font-size:.76rem;line-height:1.85;color:var(--white-muted);font-weight:300}
+.svc-num{position:absolute;bottom:18px;right:20px;font-family:var(--serif);font-size:3.5rem;font-weight:700;color:rgba(201,168,76,.05);line-height:1}
+@media(min-width:600px){.svc-grid{grid-template-columns:1fr 1fr}}
+@media(min-width:960px){.svc-grid{grid-template-columns:repeat(4,1fr)}}
+
+/* ── ABOUT ── */
+#about{background:var(--black-rich);padding:72px 16px}
+.about-wrap{max-width:640px;margin:0 auto}
+.about-body{font-size:.8rem;line-height:2;color:var(--white-muted);font-weight:300;margin-bottom:28px}
+.check-list{display:flex;flex-direction:column;gap:12px;margin-bottom:36px}
+.check-item{display:flex;align-items:center;gap:14px;font-size:.74rem;letter-spacing:.08em;color:var(--white-muted)}
+.check-item::before{content:'';width:18px;height:1px;background:var(--gold);flex-shrink:0}
+.about-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:rgba(201,168,76,.1);margin-top:40px}
+.about-stat{background:var(--black-card);padding:22px 16px;text-align:center}
+.about-stat-n{font-family:var(--serif);font-size:2rem;font-weight:600;display:block}
+.about-stat-l{font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:var(--white-muted);display:block;margin-top:4px}
+@media(min-width:600px){.about-stats{grid-template-columns:repeat(4,1fr)}}
+
+/* ── TESTIMONIALS ── */
+#testimonials{padding:72px 16px}
+.reviews-grid{display:grid;gap:16px;max-width:960px;margin:0 auto}
+.review-card{background:var(--black-card);border:1px solid var(--gold-border);padding:32px 28px;position:relative}
+.review-card::before{content:'\201C';font-family:var(--serif);font-size:4.5rem;line-height:0;position:absolute;top:28px;left:22px;color:rgba(201,168,76,.12);font-weight:700}
+.stars{color:var(--gold);font-size:.65rem;letter-spacing:3px;margin-bottom:16px;display:block}
+.review-text{font-family:var(--serif);font-size:1rem;font-style:italic;font-weight:300;color:var(--white-muted);line-height:1.8;margin-bottom:22px}
+.review-author{font-size:.7rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--white)}
+.review-role{font-size:.62rem;letter-spacing:.12em;color:var(--gold);margin-top:3px}
+@media(min-width:700px){.reviews-grid{grid-template-columns:1fr 1fr}}
+@media(min-width:960px){.reviews-grid{grid-template-columns:repeat(3,1fr)}}
+
+/* ── BOOKING CTA SECTION ── */
+#booking-cta{background:var(--black-rich);border-top:1px solid var(--gold-border);border-bottom:1px solid var(--gold-border);padding:64px 16px;text-align:center}
+.cta-inner{max-width:480px;margin:0 auto}
+.cta-inner .section-title{margin-bottom:12px}
+.cta-sub{font-size:.78rem;line-height:1.8;color:var(--white-muted);margin-bottom:32px}
+
+/* ── CONTACT ── */
+#contact{padding:72px 16px}
+.contact-wrap{max-width:640px;margin:0 auto}
+.contact-info{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:40px}
+.ci-card{background:var(--black-card);border:1px solid var(--gold-border);padding:20px 18px}
+.ci-lbl{font-size:.55rem;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);font-weight:600;display:block;margin-bottom:6px}
+.ci-val{font-family:var(--serif);font-size:1rem;color:var(--white)}
+.ci-sub{font-size:.65rem;color:var(--white-muted);margin-top:3px}
+@media(min-width:600px){.contact-info{grid-template-columns:repeat(4,1fr)}}
+.form-field{margin-bottom:16px}
+.field-label{font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);font-weight:600;display:block;margin-bottom:8px}
+.field-input{width:100%;background:rgba(201,168,76,.03);border:1px solid var(--gold-border);color:var(--white);padding:14px 16px;font-family:var(--sans);font-size:.8rem;outline:none;transition:border-color .25s;border-radius:var(--radius)}
+.field-input:focus{border-color:rgba(201,168,76,.6)}
+.field-input::placeholder{color:rgba(200,192,176,.3)}
+select.field-input option{background:var(--black-rich);color:var(--white)}
+textarea.field-input{resize:vertical;min-height:90px}
+.form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+/* ── FOOTER ── */
+footer{background:var(--black);border-top:1px solid var(--gold-border);padding:32px 16px;text-align:center}
+.footer-brand{font-family:var(--serif);font-size:1rem;letter-spacing:.12em}
+.footer-brand small{display:block;font-family:var(--sans);font-size:.52rem;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;margin-top:4px}
+.footer-links{display:flex;justify-content:center;gap:24px;margin:20px 0}
+.footer-links a{color:var(--white-muted);text-decoration:none;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:color .2s}
+.footer-links a:hover{color:var(--gold)}
+.footer-copy{font-size:.58rem;letter-spacing:.12em;color:var(--white-muted)}
+
+/* ══════════════════════════════════
+   PAGE: BOOKING
+══════════════════════════════════ */
+#page-booking{background:var(--black);min-height:100vh;padding:40px 16px 60px}
+.booking-header{text-align:center;margin-bottom:36px}
+.booking-header .section-title{margin-bottom:8px}
+.booking-header p{font-size:.78rem;color:var(--white-muted);line-height:1.7}
+.booking-flow{max-width:560px;margin:0 auto}
+
+/* Steps indicator */
+.steps-bar{display:flex;align-items:center;margin-bottom:40px}
+.step-item{flex:1;text-align:center;position:relative}
+.step-circle{width:32px;height:32px;border-radius:50%;border:1px solid var(--gold-border);display:flex;align-items:center;justify-content:center;font-size:.58rem;font-weight:700;letter-spacing:.05em;color:var(--white-muted);margin:0 auto 6px;transition:all .3s}
+.step-circle.done{background:var(--gold);border-color:var(--gold);color:var(--black)}
+.step-circle.active{border-color:var(--gold);color:var(--gold)}
+.step-label{font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;color:var(--white-muted)}
+.step-connector{flex:0 0 40px;height:1px;background:var(--gold-border);margin-bottom:20px}
+.step-connector.done{background:var(--gold)}
+
+/* Booking step panels */
+.bstep{display:none}
+.bstep.active{display:block}
+
+/* Service picker */
+.service-pick-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
+.svc-pick-btn{background:var(--black-card);border:1px solid var(--gold-border);padding:20px 14px;text-align:left;cursor:pointer;transition:all .25s;position:relative;color:var(--white);border-radius:var(--radius)}
+.svc-pick-btn:hover{border-color:rgba(201,168,76,.5)}
+.svc-pick-btn.selected{border-color:var(--gold);background:rgba(201,168,76,.06)}
+.svc-pick-btn.selected::after{content:'✓';position:absolute;top:8px;right:10px;color:var(--gold);font-size:.7rem;font-weight:700}
+.svc-pick-ico{font-family:var(--serif);font-size:1.6rem;color:var(--gold);display:block;margin-bottom:8px;line-height:1}
+.svc-pick-name{font-size:.7rem;font-weight:600;letter-spacing:.08em;color:var(--white);display:block;margin-bottom:3px}
+.svc-pick-dur{font-size:.6rem;color:var(--white-muted)}
+
+/* Calendar */
+.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.cal-month{font-family:var(--serif);font-size:1.4rem;font-weight:500;color:var(--white)}
+.cal-nav{background:none;border:1px solid var(--gold-border);color:var(--gold);width:34px;height:34px;cursor:pointer;font-size:1rem;transition:all .25s;display:flex;align-items:center;justify-content:center}
+.cal-nav:hover{background:var(--gold-faint)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:20px}
+.cal-dow{text-align:center;font-size:.52rem;letter-spacing:.15em;text-transform:uppercase;color:var(--white-muted);padding:4px 0;font-weight:600}
+.cal-day{
+  aspect-ratio:1;display:flex;align-items:center;justify-content:center;
+  font-size:.72rem;cursor:pointer;
+  border:1px solid transparent;
+  transition:all .2s;border-radius:var(--radius);font-weight:500
+}
+.cal-day.other-month{color:rgba(200,192,176,.2);cursor:default}
+.cal-day.blocked{color:rgba(200,192,176,.2);cursor:not-allowed;text-decoration:line-through}
+.cal-day.available:hover{border-color:var(--gold-border);background:var(--gold-faint);color:var(--gold)}
+.cal-day.selected{background:var(--gold);color:var(--black);font-weight:700;border-color:var(--gold)}
+.cal-day.today{color:var(--gold);font-weight:700}
+.cal-legend{display:flex;gap:16px;font-size:.58rem;letter-spacing:.12em;color:var(--white-muted);margin-bottom:24px}
+.legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:3px}
+
+/* Time slots */
+.time-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:24px}
+.time-slot{
+  padding:12px 8px;text-align:center;
+  background:var(--black-card);border:1px solid var(--gold-border);
+  cursor:pointer;transition:all .2s;border-radius:var(--radius)
+}
+.time-slot:hover{border-color:rgba(201,168,76,.5)}
+.time-slot.selected{background:var(--gold);border-color:var(--gold)}
+.time-slot.selected .ts-time{color:var(--black)}
+.time-slot.booked{opacity:.35;cursor:not-allowed;border-style:dashed}
+.ts-time{font-size:.7rem;font-weight:600;color:var(--white);display:block}
+.time-slot.selected .ts-period{color:var(--black)}
+.ts-period{font-size:.55rem;color:var(--white-muted);letter-spacing:.1em}
+
+/* Booking confirm */
+.booking-summary{background:var(--black-card);border:1px solid var(--gold-border);padding:24px 20px;margin-bottom:24px;border-radius:var(--radius)}
+.bs-row{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid rgba(201,168,76,.07)}
+.bs-row:last-child{border-bottom:none}
+.bs-lbl{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--white-muted)}
+.bs-val{font-family:var(--serif);font-size:1rem;color:var(--white)}
+
+/* Confirmation screen */
+.confirm-screen{text-align:center;padding:40px 0}
+.confirm-icon{width:64px;height:64px;border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px}
+.confirm-icon svg{width:28px;height:28px;stroke:var(--gold);fill:none;stroke-width:1.5}
+.confirm-title{font-family:var(--serif);font-size:2rem;font-weight:300;color:var(--white);margin-bottom:10px}
+.confirm-sub{font-size:.78rem;color:var(--white-muted);line-height:1.8;margin-bottom:32px}
+
+/* ══════════════════════════════════
+   PAGE: DASHBOARD
+══════════════════════════════════ */
+#page-dashboard{background:var(--black);min-height:100vh;padding:0 0 60px}
+.dash-topbar{background:var(--black-rich);border-bottom:1px solid var(--gold-border);padding:16px 20px;display:flex;align-items:center;justify-content:space-between}
+.dash-title{font-family:var(--serif);font-size:1.3rem;font-weight:500}
+.dash-title small{display:block;font-family:var(--sans);font-size:.52rem;letter-spacing:.3em;color:var(--gold);text-transform:uppercase;margin-top:2px}
+.dash-badge{background:var(--gold-faint);border:1px solid var(--gold-border);padding:5px 12px;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+
+.dash-tabs{display:flex;border-bottom:1px solid var(--gold-border);background:var(--black-rich)}
+.dash-tab{flex:1;padding:14px 8px;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;text-align:center;cursor:pointer;color:var(--white-muted);background:none;border:none;border-bottom:2px solid transparent;transition:all .25s;font-family:var(--sans);font-weight:600}
+.dash-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.dash-panel{display:none;padding:20px 16px}
+.dash-panel.active{display:block}
+
+/* Dashboard stats row */
+.dash-kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:24px}
+.kpi-card{background:var(--black-card);border:1px solid var(--gold-border);padding:18px 16px;text-align:center}
+.kpi-n{font-family:var(--serif);font-size:2rem;font-weight:600;display:block}
+.kpi-l{font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:var(--white-muted);display:block;margin-top:4px}
+
+/* Bookings list */
+.booking-list{display:flex;flex-direction:column;gap:10px}
+.booking-item{background:var(--black-card);border:1px solid var(--gold-border);padding:16px 18px;display:flex;align-items:flex-start;gap:14px;position:relative}
+.bi-date-box{background:var(--gold-faint);border:1px solid var(--gold-border);padding:8px 10px;text-align:center;min-width:48px;flex-shrink:0}
+.bi-date-d{font-family:var(--serif);font-size:1.4rem;font-weight:600;line-height:1;display:block}
+.bi-date-m{font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);display:block;margin-top:2px}
+.bi-info{flex:1}
+.bi-name{font-size:.8rem;font-weight:600;color:var(--white);margin-bottom:4px}
+.bi-meta{font-size:.65rem;color:var(--white-muted)}
+.bi-svc{font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-top:4px;display:block}
+.bi-status{position:absolute;top:12px;right:14px;font-size:.52rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;padding:3px 8px;border-radius:2px}
+.status-confirmed{background:rgba(29,158,117,.15);color:#5DCAA5}
+.status-pending{background:rgba(239,159,39,.12);color:#EF9F27}
+.status-cancelled{background:rgba(226,75,74,.12);color:#F09595}
+
+/* Availability builder */
+.avail-section{margin-bottom:28px}
+.avail-section-title{font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);font-weight:700;padding-bottom:10px;border-bottom:1px solid var(--gold-border);margin-bottom:16px}
+.day-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid rgba(201,168,76,.06)}
+.day-toggle{position:relative;width:38px;height:20px;flex-shrink:0}
+.day-toggle input{opacity:0;width:0;height:0}
+.toggle-slider{position:absolute;inset:0;background:rgba(201,168,76,.15);cursor:pointer;border-radius:20px;transition:.3s}
+.toggle-slider::before{content:'';position:absolute;height:14px;width:14px;left:3px;bottom:3px;background:var(--white-muted);border-radius:50%;transition:.3s}
+.day-toggle input:checked+.toggle-slider{background:var(--gold)}
+.day-toggle input:checked+.toggle-slider::before{transform:translateX(18px);background:var(--black)}
+.day-name{font-size:.72rem;font-weight:600;color:var(--white);min-width:88px}
+.time-range{display:flex;align-items:center;gap:8px;flex:1}
+.time-select{background:var(--black-card);border:1px solid var(--gold-border);color:var(--white);padding:6px 8px;font-family:var(--sans);font-size:.65rem;outline:none;cursor:pointer;flex:1;min-width:0}
+.time-select:disabled{opacity:.3}
+.time-dash{font-size:.7rem;color:var(--white-muted)}
+
+/* Block dates */
+.blocked-dates-wrap{margin-top:12px}
+.blocked-date-item{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--black-card);border:1px solid var(--gold-border);margin-bottom:8px}
+.bd-date{font-family:var(--serif);font-size:.95rem;color:var(--white)}
+.bd-del{background:none;border:none;color:rgba(240,149,149,.6);cursor:pointer;font-size:.75rem;letter-spacing:.1em;font-family:var(--sans);padding:4px 8px;transition:color .2s}
+.bd-del:hover{color:#F09595}
+.add-block-row{display:flex;gap:10px;margin-top:12px}
+.add-block-row input{flex:1;background:var(--black-card);border:1px solid var(--gold-border);color:var(--white);padding:10px 12px;font-family:var(--sans);font-size:.75rem;outline:none}
+.add-block-row input::-webkit-calendar-picker-indicator{filter:invert(1) sepia(1) saturate(2) hue-rotate(10deg)}
+.btn-add-block{background:var(--gold-faint);border:1px solid var(--gold-border);color:var(--gold);padding:10px 16px;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;font-family:var(--sans);font-weight:700;cursor:pointer;white-space:nowrap}
+
+/* Slot duration */
+.slot-options{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.slot-opt{background:var(--black-card);border:1px solid var(--gold-border);padding:9px 16px;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--white-muted);cursor:pointer;transition:all .2s;font-family:var(--sans);font-weight:600}
+.slot-opt.active{background:var(--gold);border-color:var(--gold);color:var(--black)}
+
+/* Save bar */
+.save-bar{background:var(--black-rich);border-top:1px solid var(--gold-border);padding:16px 20px;position:sticky;bottom:0}
+</style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container">
-            <a href="#" class="logo">
-                <span class="logo-icon">&#9830;</span>
-                Divine Executive Chauffeurs
-            </a>
-            <button class="nav-toggle" aria-label="Toggle navigation">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <ul class="nav-links">
-                <li><a href="booking.html">Book</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#testimonials">Reviews</a></li>
-                <li><a href="booking.html" class="btn btn-nav">Book Now</a></li>
-            </ul>
+
+<!-- ═══════ NAV ═══════ -->
+<nav id="main-nav">
+  <div class="nav-logo gold-text" onclick="window.location.href='index.html'">
+    Divine Executive Chauffeurs
+    <small>Chicago, Illinois</small>
+  </div>
+  <!-- mobile hamburger -->
+  <button class="hamburger" id="ham-btn" aria-label="Menu" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
+  <!-- desktop links -->
+  <nav class="nav-desktop">
+    <a onclick="window.location.href='index.html';scrollTo('services')">Services</a>
+    <a onclick="window.location.href='index.html';scrollTo('about')">About</a>
+    <a onclick="window.location.href='index.html';scrollTo('testimonials')">Reviews</a>
+    <a onclick="window.location.href='index.html';scrollTo('contact')">Contact</a>
+    <button class="nav-cta-btn" onclick="window.location.href='booking.html'">Book a Ride</button>
+  </nav>
+</nav>
+<!-- mobile menu drawer -->
+<div class="mobile-menu" id="mobile-menu">
+  <a onclick="closeMenu();window.location.href='index.html';scrollTo('services')">Services</a>
+  <a onclick="closeMenu();window.location.href='index.html';scrollTo('about')">About</a>
+  <a onclick="closeMenu();window.location.href='index.html';scrollTo('testimonials')">Reviews</a>
+  <a onclick="closeMenu();window.location.href='index.html';scrollTo('contact')">Contact</a>
+  <a onclick="closeMenu();window.location.href='booking.html'">Book a Ride</a>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PAGE: MAIN SITE
+═══════════════════════════════════════ -->
+<div id="page-main" class="page active">
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-ring" style="width:min(600px,120vw);height:min(600px,120vw)"></div>
+    <div class="hero-ring" style="width:min(400px,90vw);height:min(400px,90vw)"></div>
+    <div class="hero-content">
+      <div class="crown-wrap">
+        <svg viewBox="0 0 64 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="cg" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#A07830"/>
+              <stop offset="40%" style="stop-color:#E8C96A"/>
+              <stop offset="70%" style="stop-color:#C9A84C"/>
+              <stop offset="100%" style="stop-color:#A07830"/>
+            </linearGradient>
+          </defs>
+          <path d="M6 38 L6 18 L20 30 L32 6 L44 30 L58 18 L58 38 Z" fill="url(#cg)" opacity=".9"/>
+          <rect x="4" y="38" width="56" height="6" fill="url(#cg)"/>
+          <circle cx="32" cy="5" r="3" fill="url(#cg)"/>
+          <circle cx="6" cy="17" r="2.5" fill="url(#cg)"/>
+          <circle cx="58" cy="17" r="2.5" fill="url(#cg)"/>
+        </svg>
+      </div>
+      <span class="d-mono gold-text">D</span>
+      <div class="brand-name">Divine</div>
+      <div class="brand-executive"><span>Executive</span></div>
+      <div class="brand-chauffeurs"><span>Chauffeurs</span></div>
+      <p class="hero-tagline">Your Journey. Our Priority.</p>
+      <p class="hero-pillars">Luxury &nbsp;·&nbsp; Punctuality &nbsp;·&nbsp; Excellence</p>
+      <div class="hero-btns">
+        <button class="btn-gold" onclick="window.location.href='booking.html'">Reserve Your Ride</button>
+        <button class="btn-outline" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">Our Services</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div id="stats">
+    <div class="stats-grid">
+      <div class="stat-cell"><span class="stat-n gold-text">10+</span><span class="stat-l">Years of Excellence</span></div>
+      <div class="stat-cell"><span class="stat-n gold-text">5K+</span><span class="stat-l">Satisfied Clients</span></div>
+      <div class="stat-cell"><span class="stat-n gold-text">99%</span><span class="stat-l">On-Time Rate</span></div>
+      <div class="stat-cell"><span class="stat-n gold-text">24/7</span><span class="stat-l">Availability</span></div>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="section-head">
+      <span class="eyebrow">What We Offer</span>
+      <h2 class="section-title">Our Services</h2>
+      <div class="divider"><span>Tailored Transportation Solutions</span></div>
+    </div>
+    <div class="svc-grid">
+      <div class="svc-card">
+        <div class="svc-top-bar"></div>
+        <div class="svc-ico"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="1"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg></div>
+        <h3 class="svc-name">Corporate Transportation</h3>
+        <p class="svc-desc">Reliable executive transport for business meetings, conferences, and corporate events. Always on time, always professional.</p>
+        <span class="svc-num">01</span>
+      </div>
+      <div class="svc-card">
+        <div class="svc-top-bar"></div>
+        <div class="svc-ico"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.58 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+        <h3 class="svc-name">Airport Transfers</h3>
+        <p class="svc-desc">Seamless pickups and drop-offs at O'Hare and Midway. Real-time flight tracking ensures we're there when you land.</p>
+        <span class="svc-num">02</span>
+      </div>
+      <div class="svc-card">
+        <div class="svc-top-bar"></div>
+        <div class="svc-ico"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <h3 class="svc-name">Special Events</h3>
+        <p class="svc-desc">Make your occasions unforgettable with premium chauffeur service for weddings, galas, and celebrations.</p>
+        <span class="svc-num">03</span>
+      </div>
+      <div class="svc-card">
+        <div class="svc-top-bar"></div>
+        <div class="svc-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <h3 class="svc-name">Hourly Charters</h3>
+        <p class="svc-desc">Flexible hourly service for when your schedule demands more. Perfect for client entertainment or city tours.</p>
+        <span class="svc-num">04</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-wrap">
+      <div class="section-head">
+        <span class="eyebrow">Who We Are</span>
+        <h2 class="section-title">Premium Transportation,<br><em style="font-weight:300">Elevated Experience</em></h2>
+        <div class="divider"></div>
+      </div>
+      <p class="about-body">Divine Executive Chauffeurs LLC delivers premium transportation across the greater Chicagoland area. We understand that your time is invaluable — which is why every aspect of our service is built around three principles: punctuality, professionalism, and comfort.<br><br>Our experienced chauffeurs are more than drivers — they are hospitality professionals dedicated to making every journey exceptional.</p>
+      <div class="check-list">
+        <div class="check-item">Licensed &amp; Fully Insured</div>
+        <div class="check-item">Professional, Background-Checked Chauffeurs</div>
+        <div class="check-item">24/7 Availability — Always On Call</div>
+        <div class="check-item">Meticulously Maintained Premium Fleet</div>
+      </div>
+      <div class="about-stats">
+        <div class="about-stat"><span class="about-stat-n gold-text">10+</span><span class="about-stat-l">Years</span></div>
+        <div class="about-stat"><span class="about-stat-n gold-text">5K+</span><span class="about-stat-l">Clients</span></div>
+        <div class="about-stat"><span class="about-stat-n gold-text">99%</span><span class="about-stat-l">On-Time</span></div>
+        <div class="about-stat"><span class="about-stat-n gold-text">24/7</span><span class="about-stat-l">Service</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials">
+    <div class="section-head">
+      <span class="eyebrow">Client Testimonials</span>
+      <h2 class="section-title">What Our Clients Say</h2>
+      <div class="divider"><span>Trusted by Executives Across Chicago</span></div>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <span class="stars">★★★★★</span>
+        <p class="review-text">Exceptional service every time. My go-to for airport transfers and client entertainment. Always punctual and professional.</p>
+        <div class="review-author">Michael R.</div>
+        <div class="review-role">Financial Consultant</div>
+      </div>
+      <div class="review-card">
+        <span class="stars">★★★★★</span>
+        <p class="review-text">Divine Executive made our wedding day transportation flawless. The attention to detail and elegance exceeded our expectations.</p>
+        <div class="review-author">Sarah &amp; James T.</div>
+        <div class="review-role">Wedding Clients</div>
+      </div>
+      <div class="review-card">
+        <span class="stars">★★★★★</span>
+        <p class="review-text">I've used many car services, but Divine stands out. Chauffeurs are courteous, vehicles are immaculate, and booking is seamless.</p>
+        <div class="review-author">David L.</div>
+        <div class="review-role">Corporate Executive</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOOKING CTA -->
+  <section id="booking-cta">
+    <div class="cta-inner">
+      <span class="eyebrow">Reserve Now</span>
+      <h2 class="section-title">Ready to Ride in Style?</h2>
+      <div class="divider"></div>
+      <p class="cta-sub">Select your date, time, and service in under two minutes. Instant booking, no phone calls required.</p>
+      <button class="btn-gold" onclick="window.location.href='booking.html'">Book Your Ride Now</button>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-wrap">
+      <div class="section-head">
+        <span class="eyebrow">Get in Touch</span>
+        <h2 class="section-title">Contact Us</h2>
+        <div class="divider"><span>Ready to Experience Premium Transportation?</span></div>
+      </div>
+      <div class="contact-info">
+        <div class="ci-card">
+          <span class="ci-lbl">Phone</span>
+          <div class="ci-val">(773) 290-7289</div>
+          <div class="ci-sub">24/7 Available</div>
         </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <header class="hero" id="home">
-        <div class="hero-overlay"></div>
-        <div class="container hero-content">
-            <h1>Elevate Your Journey</h1>
-            <p class="hero-subtitle">Premium executive transportation services in Chicago</p>
-            <p class="hero-tagline">Where punctuality meets luxury</p>
-            <a href="booking.html" class="btn btn-primary">Book Your Ride</a>
+        <div class="ci-card">
+          <span class="ci-lbl">Email</span>
+          <div class="ci-val" style="font-size:.85rem">info@divineexec.com</div>
+          <div class="ci-sub">Quick response</div>
         </div>
-    </header>
-
-    <!-- Services Section -->
-    <section class="services" id="services">
-        <div class="container">
-            <h2 class="section-title">Our Services</h2>
-            <p class="section-subtitle">Tailored transportation solutions for every occasion</p>
-
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">&#128188;</div>
-                    <h3>Corporate Transportation</h3>
-                    <p>Reliable executive transport for business meetings, conferences, and corporate events. Always on time, always professional.</p>
-                </div>
-
-                <div class="service-card">
-                    <div class="service-icon">&#9992;</div>
-                    <h3>Airport Transfers</h3>
-                    <p>Seamless pickups and drop-offs at O'Hare and Midway airports. Flight tracking ensures we're there when you land.</p>
-                </div>
-
-                <div class="service-card">
-                    <div class="service-icon">&#127775;</div>
-                    <h3>Special Events</h3>
-                    <p>Make your special occasions memorable with our premium chauffeur service for weddings, galas, and celebrations.</p>
-                </div>
-
-                <div class="service-card">
-                    <div class="service-icon">&#128663;</div>
-                    <h3>Hourly Charters</h3>
-                    <p>Flexible hourly services for when your schedule demands more. Perfect for client entertainment or city tours.</p>
-                </div>
-            </div>
+        <div class="ci-card">
+          <span class="ci-lbl">Website</span>
+          <div class="ci-val" style="font-size:.85rem">www.divineexec.com</div>
+          <div class="ci-sub">Book anytime</div>
         </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="about" id="about">
-        <div class="container">
-            <div class="about-content">
-                <div class="about-text">
-                    <h2 class="section-title">About Us</h2>
-                    <p class="lead">Divine Executive Chauffeurs LLC delivers premium transportation experiences across the greater Chicago area.</p>
-                    <p>We understand that your time is valuable. That's why we've built our service around three core principles: punctuality, professionalism, and comfort. Our experienced chauffeurs are more than drivers—they're hospitality professionals dedicated to making every journey exceptional.</p>
-                    <p>From the moment you book until you reach your destination, expect nothing less than first-class service. Our meticulously maintained fleet and attention to detail ensure you arrive refreshed, relaxed, and ready.</p>
-
-                    <div class="about-features">
-                        <div class="feature">
-                            <span class="feature-icon">&#10003;</span>
-                            <span>Licensed & Insured</span>
-                        </div>
-                        <div class="feature">
-                            <span class="feature-icon">&#10003;</span>
-                            <span>Professional Chauffeurs</span>
-                        </div>
-                        <div class="feature">
-                            <span class="feature-icon">&#10003;</span>
-                            <span>24/7 Availability</span>
-                        </div>
-                        <div class="feature">
-                            <span class="feature-icon">&#10003;</span>
-                            <span>Premium Fleet</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="ci-card">
+          <span class="ci-lbl">Service Area</span>
+          <div class="ci-val" style="font-size:.85rem">Chicagoland</div>
+          <div class="ci-sub">O'Hare &amp; Midway</div>
         </div>
-    </section>
-
-    <!-- Why Choose Us Section -->
-    <section class="why-us">
-        <div class="container">
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <span class="stat-number">10+</span>
-                    <span class="stat-label">Years of Excellence</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">5000+</span>
-                    <span class="stat-label">Satisfied Clients</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">99%</span>
-                    <span class="stat-label">On-Time Rate</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">24/7</span>
-                    <span class="stat-label">Availability</span>
-                </div>
-            </div>
+      </div>
+      <form id="contactForm" action="/api/contact" method="POST">
+        <div class="form-row-2">
+          <div class="form-field"><label class="field-label">Full Name</label><input type="text" class="field-input" name="name" required placeholder="Your name"></div>
+          <div class="form-field"><label class="field-label">Email</label><input type="email" class="field-input" name="email" required placeholder="your@email.com"></div>
         </div>
-    </section>
-
-    <!-- Testimonials Section -->
-    <section class="testimonials" id="testimonials">
-        <div class="container">
-            <h2 class="section-title">What Our Clients Say</h2>
-            <p class="section-subtitle">Trusted by executives and professionals across Chicago</p>
-
-            <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-                    <blockquote>"Exceptional service every time. My go-to for airport transfers and client entertainment. Always punctual and professional."</blockquote>
-                    <div class="testimonial-author">
-                        <div class="author-info">
-                            <strong>Michael R.</strong>
-                            <span>Financial Consultant</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card">
-                    <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-                    <blockquote>"Divine Executive made our wedding day transportation flawless. The attention to detail and elegance exceeded our expectations."</blockquote>
-                    <div class="testimonial-author">
-                        <div class="author-info">
-                            <strong>Sarah & James T.</strong>
-                            <span>Wedding Clients</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card">
-                    <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-                    <blockquote>"I've used many car services, but Divine stands out. The chauffeurs are courteous, vehicles are immaculate, and booking is seamless."</blockquote>
-                    <div class="testimonial-author">
-                        <div class="author-info">
-                            <strong>David L.</strong>
-                            <span>Corporate Executive</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="form-row-2">
+          <div class="form-field"><label class="field-label">Phone</label><input type="tel" class="field-input" name="phone" placeholder="(000) 000-0000"></div>
+          <div class="form-field"><label class="field-label">Service</label>
+            <select class="field-input" name="service"><option value="" selected>Select service</option><option value="corporate">Corporate Transportation</option><option value="airport">Airport Transfer</option><option value="event">Special Event</option><option value="hourly">Hourly Charter</option></select>
+          </div>
         </div>
-    </section>
+        <div class="form-field"><label class="field-label">Message</label><textarea class="field-input" name="message" placeholder="Tell us about your transportation needs..."></textarea></div>
+        <div id="formMessage" style="display:none;font-size:.72rem;letter-spacing:.05em;margin:8px 0 14px"></div>
+        <button class="btn-gold" type="submit" id="submitBtn">Send Inquiry</button>
+      </form>
+    </div>
+  </section>
 
-    <!-- Contact Section -->
-    <section class="contact" id="contact">
-        <div class="container">
-            <h2 class="section-title">Contact Us</h2>
-            <p class="section-subtitle">Ready to experience premium transportation? Get in touch today.</p>
-            <p style="text-align:center; margin-top:-28px; margin-bottom:40px;">
-                <a href="booking.html" class="btn btn-primary">Go To Booking Page</a>
-            </p>
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-brand gold-text">
+      Divine Executive Chauffeurs LLC
+      <small>Premium Executive Transportation · Chicago</small>
+    </div>
+    <div class="footer-links">
+      <a onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">Services</a>
+      <a onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">About</a>
+      <a onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contact</a>
+      <a onclick="window.location.href='booking.html'">Book Now</a>
+    </div>
+    <div class="footer-copy">© 2026 Divine Executive Chauffeurs LLC. All rights reserved.</div>
+  </footer>
+</div>
 
-            <div class="contact-grid">
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <div class="contact-icon">&#128222;</div>
-                        <div>
-                            <h4>Phone</h4>
-                            <a href="tel:+13125551234">(312) 555-1234</a>
-                        </div>
-                    </div>
+<!-- ═══════════════════════════════════════
+     PAGE: BOOKING
+═══════════════════════════════════════ -->
+<div id="page-booking" class="page">
+  <div style="max-width:640px;margin:0 auto">
+  <div style="padding:20px 16px 0;display:flex;align-items:center;gap:14px">
+    <button onclick="window.location.href='index.html'" style="background:none;border:none;color:var(--gold);cursor:pointer;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;font-family:var(--sans);font-weight:600;display:flex;align-items:center;gap:6px">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      Back
+    </button>
+    <div style="font-family:var(--serif);font-size:1.2rem;font-weight:500;color:var(--white)">Reserve Your Ride</div>
+  </div>
 
-                    <div class="contact-item">
-                        <div class="contact-icon">&#9993;</div>
-                        <div>
-                            <h4>Email</h4>
-                            <a href="mailto:info@divineexec.com">info@divineexec.com</a>
-                        </div>
-                    </div>
+  <!-- logo strip -->
+  <div style="text-align:center;padding:24px 16px 8px">
+    <div class="eyebrow">Divine Executive Chauffeurs</div>
+    <div style="font-size:.65rem;color:var(--white-muted);letter-spacing:.15em">Chicagoland's Premier Transportation</div>
+  </div>
 
-                    <div class="contact-item">
-                        <div class="contact-icon">&#128205;</div>
-                        <div>
-                            <h4>Service Area</h4>
-                            <p>Greater Chicago Area</p>
-                        </div>
-                    </div>
+  <div class="booking-flow">
+    <!-- Steps bar -->
+    <div class="steps-bar" id="steps-bar">
+      <div class="step-item">
+        <div class="step-circle active" id="sc1">01</div>
+        <div class="step-label">Service</div>
+      </div>
+      <div class="step-connector" id="conn1"></div>
+      <div class="step-item">
+        <div class="step-circle" id="sc2">02</div>
+        <div class="step-label">Date &amp; Time</div>
+      </div>
+      <div class="step-connector" id="conn2"></div>
+      <div class="step-item">
+        <div class="step-circle" id="sc3">03</div>
+        <div class="step-label">Your Info</div>
+      </div>
+      <div class="step-connector" id="conn3"></div>
+      <div class="step-item">
+        <div class="step-circle" id="sc4">04</div>
+        <div class="step-label">Confirm</div>
+      </div>
+    </div>
 
-                    <div class="contact-item">
-                        <div class="contact-icon">&#128336;</div>
-                        <div>
-                            <h4>Hours</h4>
-                            <p>24/7 Service Available</p>
-                        </div>
-                    </div>
-                </div>
+    <!-- STEP 1: Service -->
+    <div class="bstep active" id="bstep1">
+      <div style="margin-bottom:20px">
+        <span class="eyebrow">Step 1 of 4</span>
+        <h3 style="font-family:var(--serif);font-size:1.6rem;font-weight:300;color:var(--white)">Select a Service</h3>
+      </div>
+      <div class="service-pick-grid">
+        <button class="svc-pick-btn" onclick="selectService(this,'Corporate Transportation','Business meetings & events')">
+          <span class="svc-pick-ico">✦</span>
+          <span class="svc-pick-name">Corporate</span>
+          <span class="svc-pick-dur">Business meetings &amp; events</span>
+        </button>
+        <button class="svc-pick-btn" onclick="selectService(this,'Airport Transfer','O\'Hare & Midway pickups')">
+          <span class="svc-pick-ico">✈</span>
+          <span class="svc-pick-name">Airport Transfer</span>
+          <span class="svc-pick-dur">O'Hare &amp; Midway</span>
+        </button>
+        <button class="svc-pick-btn" onclick="selectService(this,'Special Event','Weddings, galas & celebrations')">
+          <span class="svc-pick-ico">◆</span>
+          <span class="svc-pick-name">Special Event</span>
+          <span class="svc-pick-dur">Weddings &amp; galas</span>
+        </button>
+        <button class="svc-pick-btn" onclick="selectService(this,'Hourly Charter','Flexible hourly service')">
+          <span class="svc-pick-ico">◎</span>
+          <span class="svc-pick-name">Hourly Charter</span>
+          <span class="svc-pick-dur">Flexible hourly</span>
+        </button>
+      </div>
+      <button class="btn-gold" id="s1-next" disabled onclick="goStep(2)" style="opacity:.4">Continue</button>
+    </div>
 
-                <form class="contact-form" id="contactForm" action="/api/contact" method="POST">
-                    <div class="form-group">
-                        <label for="name">Full Name</label>
-                        <input type="text" id="name" name="name" required placeholder="Your name">
-                    </div>
+    <!-- STEP 2: Date & Time -->
+    <div class="bstep" id="bstep2">
+      <div style="margin-bottom:20px">
+        <span class="eyebrow">Step 2 of 4</span>
+        <h3 style="font-family:var(--serif);font-size:1.6rem;font-weight:300;color:var(--white)">Pick a Date &amp; Time</h3>
+      </div>
+      <!-- Calendar -->
+      <div class="cal-header">
+        <button class="cal-nav" onclick="changeMonth(-1)">&#8249;</button>
+        <div class="cal-month" id="cal-month-label">May 2026</div>
+        <button class="cal-nav" onclick="changeMonth(1)">&#8250;</button>
+      </div>
+      <div class="cal-grid" id="cal-days-of-week">
+        <div class="cal-dow">Su</div><div class="cal-dow">Mo</div><div class="cal-dow">Tu</div>
+        <div class="cal-dow">We</div><div class="cal-dow">Th</div><div class="cal-dow">Fr</div><div class="cal-dow">Sa</div>
+      </div>
+      <div class="cal-grid" id="cal-grid"></div>
+      <div class="cal-legend">
+        <div style="display:flex;align-items:center;gap:5px"><div class="legend-dot" style="background:var(--gold)"></div>Available</div>
+        <div style="display:flex;align-items:center;gap:5px"><div class="legend-dot" style="background:rgba(200,192,176,.3)"></div>Unavailable</div>
+      </div>
 
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" required placeholder="your@email.com">
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Phone</label>
-                            <input type="tel" id="phone" name="phone" placeholder="(312) 555-1234">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="service">Service Type</label>
-                        <select id="service" name="service">
-                            <option value="">Select a service</option>
-                            <option value="corporate">Corporate Transportation</option>
-                            <option value="airport">Airport Transfer</option>
-                            <option value="event">Special Event</option>
-                            <option value="hourly">Hourly Charter</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea id="message" name="message" rows="4" placeholder="Tell us about your transportation needs..."></textarea>
-                    </div>
-
-                    <div id="formMessage" class="form-message" style="display: none;"></div>
-                    <button type="submit" class="btn btn-primary btn-full" id="submitBtn">Send Inquiry</button>
-                </form>
-            </div>
+      <!-- Time slots -->
+      <div id="time-section" style="display:none">
+        <div style="margin-bottom:12px">
+          <span class="eyebrow" style="margin-bottom:4px">Available Times</span>
+          <div id="selected-date-label" style="font-family:var(--serif);font-size:1.1rem;color:var(--white)"></div>
         </div>
-    </section>
+        <div class="time-grid" id="time-grid"></div>
+      </div>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <span class="logo-icon">&#9830;</span>
-                    <span>Divine Executive Chauffeurs LLC</span>
-                </div>
-                <p class="footer-tagline">Premium executive transportation in Chicago</p>
-                <p class="footer-copyright">&copy; 2026 Divine Executive Chauffeurs LLC. All rights reserved.</p>
-            </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn-outline" onclick="goStep(1)" style="flex:1">Back</button>
+        <button class="btn-gold" id="s2-next" disabled onclick="goStep(3)" style="flex:2;opacity:.4">Continue</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: Contact Info -->
+    <div class="bstep" id="bstep3">
+      <div style="margin-bottom:20px">
+        <span class="eyebrow">Step 3 of 4</span>
+        <h3 style="font-family:var(--serif);font-size:1.6rem;font-weight:300;color:var(--white)">Your Details</h3>
+      </div>
+      <div class="form-field"><label class="field-label">Full Name *</label><input type="text" class="field-input" id="b-name" placeholder="John Smith" oninput="checkStep3()"></div>
+      <div class="form-field"><label class="field-label">Phone Number *</label><input type="tel" class="field-input" id="b-phone" placeholder="(773) 000-0000" oninput="checkStep3()"></div>
+      <div class="form-field"><label class="field-label">Email Address *</label><input type="email" class="field-input" id="b-email" placeholder="your@email.com" oninput="checkStep3()"></div>
+      <div class="form-field"><label class="field-label">Pickup Location</label><input type="text" class="field-input" id="b-pickup" placeholder="Address or landmark"></div>
+      <div class="form-field"><label class="field-label">Drop-off Location</label><input type="text" class="field-input" id="b-dropoff" placeholder="Address or landmark"></div>
+      <div class="form-field"><label class="field-label">Special Requests</label><textarea class="field-input" id="b-notes" placeholder="Flight number, special requirements, etc." style="min-height:80px"></textarea></div>
+      <div style="display:flex;gap:10px">
+        <button class="btn-outline" onclick="goStep(2)" style="flex:1">Back</button>
+        <button class="btn-gold" id="s3-next" disabled onclick="goStep(4)" style="flex:2;opacity:.4">Review Booking</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: Confirm -->
+    <div class="bstep" id="bstep4">
+      <div style="margin-bottom:20px">
+        <span class="eyebrow">Step 4 of 4</span>
+        <h3 style="font-family:var(--serif);font-size:1.6rem;font-weight:300;color:var(--white)">Confirm Your Booking</h3>
+      </div>
+      <div class="booking-summary" id="booking-summary"></div>
+      <div style="background:var(--gold-faint);border:1px solid var(--gold-border);padding:14px 16px;margin-bottom:20px;font-size:.72rem;color:var(--white-muted);line-height:1.7">
+        By confirming, you agree to our cancellation policy. Cancellations made 24+ hours before pickup receive a full refund. A representative may contact you to confirm details.
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn-outline" onclick="goStep(3)" style="flex:1">Back</button>
+        <button class="btn-gold" onclick="submitBooking()" style="flex:2">Confirm Booking</button>
+      </div>
+    </div>
+
+    <!-- Confirmation screen -->
+    <div class="bstep" id="bstep-done">
+      <div class="confirm-screen">
+        <div class="confirm-icon">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
         </div>
-    </footer>
+        <h2 class="confirm-title">You're Confirmed!</h2>
+        <p class="confirm-sub">Your reservation has been received. A Divine Executive representative will contact you at the number provided to confirm all details.<br><br>We look forward to serving you.</p>
+        <div style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:28px">info@divineexec.com · (773) 290-7289</div>
+        <button class="btn-gold" onclick="window.location.href='index.html'">Return to Homepage</button>
+      </div>
+    </div>
 
-    <script>
-        // Mobile navigation toggle
-        const navToggle = document.querySelector('.nav-toggle');
-        const navLinks = document.querySelector('.nav-links');
+  </div><!-- /booking-flow -->
+  </div>
+</div>
 
-        navToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            navToggle.classList.toggle('active');
-        });
+<!-- ═══════════════════════════════════════
+     PAGE: OWNER DASHBOARD
+═══════════════════════════════════════ -->
+<div id="page-dashboard" class="page">
+  <div class="dash-topbar">
+    <div class="dash-title gold-text">
+      <small>Divine Executive Chauffeurs</small>
+    </div>
+    <button class="dash-badge" onclick="window.location.href='index.html'">← Back to Site</button>
+  </div>
 
-        // Close mobile nav when clicking a link
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-                navToggle.classList.remove('active');
-            });
-        });
+  <div class="dash-tabs">
+    <button class="dash-tab active" onclick="switchDashTab('bookings',this)">Bookings</button>
+    <button class="dash-tab" onclick="switchDashTab('availability',this)">Availability</button>
+    <button class="dash-tab" onclick="switchDashTab('settings',this)">Settings</button>
+  </div>
 
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
+  <!-- TAB: BOOKINGS -->
+  <div class="dash-panel active" id="dt-bookings">
+    <div class="dash-kpis">
+      <div class="kpi-card"><span class="kpi-n gold-text">3</span><span class="kpi-l">Upcoming</span></div>
+      <div class="kpi-card"><span class="kpi-n gold-text">12</span><span class="kpi-l">This Month</span></div>
+      <div class="kpi-card"><span class="kpi-n gold-text">2</span><span class="kpi-l">Pending Confirm</span></div>
+      <div class="kpi-card"><span class="kpi-n gold-text">98%</span><span class="kpi-l">Completion Rate</span></div>
+    </div>
 
-        // Form submission handler
-        document.getElementById('contactForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
+    <div style="font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:14px">Upcoming Reservations</div>
+    <div class="booking-list" id="bookings-list">
+      <!-- populated by JS -->
+    </div>
+  </div>
 
-            const form = this;
-            const submitBtn = document.getElementById('submitBtn');
-            const formMessage = document.getElementById('formMessage');
-            const originalBtnText = submitBtn.textContent;
+  <!-- TAB: AVAILABILITY -->
+  <div class="dash-panel" id="dt-availability">
+    <div class="avail-section">
+      <div class="avail-section-title">Appointment Duration</div>
+      <div style="font-size:.7rem;color:var(--white-muted);margin-bottom:10px">Time slots shown to clients</div>
+      <div class="slot-options" id="slot-options">
+        <div class="slot-opt" onclick="setSlot(this,'60')">1 hr</div>
+        <div class="slot-opt active" onclick="setSlot(this,'90')">1.5 hr</div>
+        <div class="slot-opt" onclick="setSlot(this,'120')">2 hr</div>
+        <div class="slot-opt" onclick="setSlot(this,'180')">3 hr</div>
+        <div class="slot-opt" onclick="setSlot(this,'240')">4 hr</div>
+      </div>
+    </div>
 
-            // Disable button and show loading state
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Sending...';
-            formMessage.style.display = 'none';
+    <div class="avail-section">
+      <div class="avail-section-title">Weekly Schedule</div>
+      <div id="days-schedule">
+        <!-- populated by JS -->
+      </div>
+    </div>
 
-            // Collect form data
-            const formData = {
-                name: form.name.value,
-                email: form.email.value,
-                phone: form.phone.value,
-                service: form.service.value,
-                message: form.message.value
-            };
+    <div class="avail-section">
+      <div class="avail-section-title">Blocked Dates</div>
+      <div style="font-size:.7rem;color:var(--white-muted);margin-bottom:12px">Days marked unavailable on the booking calendar</div>
+      <div class="blocked-dates-wrap" id="blocked-list"></div>
+      <div class="add-block-row">
+        <input type="date" id="block-date-input">
+        <button class="btn-add-block" onclick="addBlockedDate()">+ Block Date</button>
+      </div>
+    </div>
 
-            try {
-                const response = await fetch(form.action, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify(formData)
-                });
+    <div class="save-bar">
+      <button class="btn-gold" onclick="saveAvailability()">Save Availability Settings</button>
+    </div>
+  </div>
 
-                const data = await response.json();
+  <!-- TAB: SETTINGS -->
+  <div class="dash-panel" id="dt-settings">
+    <div class="avail-section">
+      <div class="avail-section-title">Business Information</div>
+      <div class="form-field"><label class="field-label">Business Name</label><input type="text" class="field-input" value="Divine Executive Chauffeurs LLC"></div>
+      <div class="form-field"><label class="field-label">Phone</label><input type="tel" class="field-input" value="(773) 290-7289"></div>
+      <div class="form-field"><label class="field-label">Email</label><input type="email" class="field-input" value="info@divineexec.com"></div>
+      <div class="form-field"><label class="field-label">Service Area</label><input type="text" class="field-input" value="Chicagoland Area"></div>
+    </div>
+    <div class="avail-section">
+      <div class="avail-section-title">Booking Rules</div>
+      <div class="form-field"><label class="field-label">Advance Notice Required (hours)</label><input type="number" class="field-input" value="4" min="1" max="72"></div>
+      <div class="form-field"><label class="field-label">Max Days Ahead Clients Can Book</label><input type="number" class="field-input" value="90" min="7" max="365"></div>
+      <div class="form-field"><label class="field-label">Booking Confirmation</label>
+        <select class="field-input"><option>Automatic confirmation</option><option selected>Manual approval required</option></select>
+      </div>
+    </div>
+    <div class="save-bar">
+      <button class="btn-gold" onclick="alert('Settings saved!')">Save Settings</button>
+    </div>
+  </div>
+</div>
 
-                if (response.ok && data.success) {
-                    formMessage.textContent = data.message || 'Thank you for your inquiry! We will contact you shortly.';
-                    formMessage.className = 'form-message success';
-                    formMessage.style.display = 'block';
-                    form.reset();
-                } else {
-                    throw new Error(data.error || 'Form submission failed');
-                }
-            } catch (error) {
-                formMessage.textContent = 'Sorry, there was an error sending your message. Please try again or call us directly.';
-                formMessage.className = 'form-message error';
-                formMessage.style.display = 'block';
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = originalBtnText;
-            }
-        });
+<script>
+// ─── STATE ───
+const state={
+  currentPage:'main',
+  booking:{service:'',date:null,time:'',name:'',phone:'',email:'',pickup:'',dropoff:'',notes:''},
+  cal:{year:2026,month:4},
+  availability:{
+    days:{
+      Sunday:{on:false,start:'08:00',end:'20:00'},
+      Monday:{on:true,start:'06:00',end:'22:00'},
+      Tuesday:{on:true,start:'06:00',end:'22:00'},
+      Wednesday:{on:true,start:'06:00',end:'22:00'},
+      Thursday:{on:true,start:'06:00',end:'22:00'},
+      Friday:{on:true,start:'05:00',end:'23:00'},
+      Saturday:{on:true,start:'06:00',end:'23:00'}
+    },
+    blockedDates:['2026-05-25','2026-06-01'],
+    slotMinutes:90
+  },
+  bookings:[
+    {id:1,name:'Michael Rone',phone:'(312) 444-5555',service:'Corporate Transportation',date:'2026-05-22',time:'9:00 AM',status:'confirmed',pickup:'River North, Chicago',dropoff:"O'Hare International"},
+    {id:2,name:'Jennifer Walsh',phone:'(773) 222-3333',service:'Airport Transfer',date:'2026-05-24',time:'6:30 AM',status:'confirmed',pickup:"O'Hare Terminal 3",dropoff:'Gold Coast, Chicago'},
+    {id:3,name:'David Kim',phone:'(312) 777-8888',service:'Special Event',date:'2026-05-30',time:'4:00 PM',status:'pending',pickup:'Millennium Park',dropoff:'The Peninsula Hotel'},
+    {id:4,name:'Angela Torres',phone:'(773) 555-6666',service:'Hourly Charter',date:'2026-06-03',time:'7:00 PM',status:'pending',pickup:'Lincoln Park',dropoff:'Multiple stops'}
+  ]
+};
 
-        // Navbar background on scroll
-        window.addEventListener('scroll', () => {
-            const navbar = document.querySelector('.navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-    </script>
+// ─── PAGE ROUTING ───
+function showPage(p){
+  document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
+  document.getElementById('page-'+p).classList.add('active');
+  window.scrollTo(0,0);
+  state.currentPage=p;
+  if(p==='dashboard') renderDashboard();
+}
+function scrollTo(id){
+  setTimeout(()=>{const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth'})},50);
+}
+
+// ─── NAV ───
+function toggleMenu(){
+  const btn=document.getElementById('ham-btn');
+  const menu=document.getElementById('mobile-menu');
+  btn.classList.toggle('open');
+  menu.classList.toggle('open');
+}
+function closeMenu(){
+  document.getElementById('ham-btn').classList.remove('open');
+  document.getElementById('mobile-menu').classList.remove('open');
+}
+
+// ─── BOOKING FLOW ───
+function initBooking(){
+  // reset
+  state.booking={service:'',date:null,time:'',name:'',phone:'',email:'',pickup:'',dropoff:'',notes:''};
+  document.querySelectorAll('.svc-pick-btn').forEach(b=>b.classList.remove('selected'));
+  document.getElementById('s1-next').disabled=true;
+  document.getElementById('s1-next').style.opacity='.4';
+  goStep(1);
+  renderCalendar();
+}
+
+function goStep(n){
+  document.querySelectorAll('.bstep').forEach(el=>el.classList.remove('active'));
+  const target=n<=4?document.getElementById('bstep'+n):document.getElementById('bstep-done');
+  if(target) target.classList.add('active');
+  updateStepsBar(n);
+  if(n===4) renderSummary();
+  window.scrollTo(0,0);
+}
+
+function updateStepsBar(n){
+  for(let i=1;i<=4;i++){
+    const sc=document.getElementById('sc'+i);
+    if(!sc) continue;
+    sc.classList.remove('active','done');
+    if(i<n) sc.classList.add('done');
+    else if(i===n) sc.classList.add('active');
+  }
+  for(let i=1;i<=3;i++){
+    const c=document.getElementById('conn'+i);
+    if(!c) continue;
+    c.classList.toggle('done',i<n);
+  }
+}
+
+function selectService(btn,name){
+  document.querySelectorAll('.svc-pick-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  state.booking.service=name;
+  const nb=document.getElementById('s1-next');
+  nb.disabled=false;nb.style.opacity='1';
+}
+
+// ─── CALENDAR ───
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+function renderCalendar(){
+  const {year,month}=state.cal;
+  document.getElementById('cal-month-label').textContent=MONTHS[month]+' '+year;
+  const grid=document.getElementById('cal-grid');
+  grid.innerHTML='';
+  const firstDay=new Date(year,month,1).getDay();
+  const daysInMonth=new Date(year,month+1,0).getDate();
+  const daysInPrev=new Date(year,month,0).getDate();
+  const today=new Date();
+  const avail=state.availability;
+  const dayNames=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  // prev month filler
+  for(let i=firstDay-1;i>=0;i--){
+    const d=document.createElement('div');
+    d.className='cal-day other-month';
+    d.textContent=daysInPrev-i;
+    grid.appendChild(d);
+  }
+  for(let d=1;d<=daysInMonth;d++){
+    const dt=new Date(year,month,d);
+    const dateStr=`${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const dow=dt.getDay();
+    const dayName=dayNames[dow];
+    const dayConfig=avail.days[dayName];
+    const isPast=dt<new Date(today.getFullYear(),today.getMonth(),today.getDate());
+    const isBlocked=avail.blockedDates.includes(dateStr);
+    const isAvail=dayConfig&&dayConfig.on&&!isPast&&!isBlocked;
+    const el=document.createElement('div');
+    el.textContent=d;
+    const isToday=d===today.getDate()&&month===today.getMonth()&&year===today.getFullYear();
+    if(state.booking.date===dateStr){el.className='cal-day available selected';}
+    else if(!isAvail){el.className='cal-day blocked';}
+    else{
+      el.className='cal-day available'+(isToday?' today':'');
+      el.onclick=()=>selectDate(dateStr,d,dayName);
+    }
+    grid.appendChild(el);
+  }
+  // next month filler
+  const total=firstDay+daysInMonth;
+  const remain=(7-total%7)%7;
+  for(let i=1;i<=remain;i++){
+    const d=document.createElement('div');
+    d.className='cal-day other-month';
+    d.textContent=i;
+    grid.appendChild(d);
+  }
+}
+function changeMonth(dir){
+  state.cal.month+=dir;
+  if(state.cal.month>11){state.cal.month=0;state.cal.year++;}
+  if(state.cal.month<0){state.cal.month=11;state.cal.year--;}
+  // clear selection if month changes
+  renderCalendar();
+}
+function selectDate(dateStr,day,dayName){
+  state.booking.date=dateStr;
+  state.booking.time='';
+  const nb=document.getElementById('s2-next');
+  nb.disabled=true;nb.style.opacity='.4';
+  renderCalendar();
+  renderTimeSlots(dateStr,dayName);
+}
+function renderTimeSlots(dateStr,dayName){
+  const sec=document.getElementById('time-section');
+  sec.style.display='block';
+  const lbl=document.getElementById('selected-date-label');
+  const d=new Date(dateStr+'T12:00:00');
+  lbl.textContent=d.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+  const cfg=state.availability.days[dayName];
+  const [sh,sm]=cfg.start.split(':').map(Number);
+  const [eh,em]=cfg.end.split(':').map(Number);
+  const startMin=sh*60+sm;
+  const endMin=eh*60+em;
+  const slotMin=state.availability.slotMinutes;
+  const grid=document.getElementById('time-grid');
+  grid.innerHTML='';
+  // some pre-booked times
+  const bookedSlots=state.bookings.filter(b=>b.date===dateStr).map(b=>b.time);
+  for(let m=startMin;m+slotMin<=endMin;m+=slotMin){
+    const h=Math.floor(m/60);
+    const min=m%60;
+    const ampm=h>=12?'PM':'AM';
+    const h12=h%12||12;
+    const timeStr=`${h12}:${String(min).padStart(2,'0')} ${ampm}`;
+    const el=document.createElement('div');
+    const isBooked=bookedSlots.includes(timeStr);
+    el.className='time-slot'+(isBooked?' booked':'');
+    el.innerHTML=`<span class="ts-time">${timeStr}</span><span class="ts-period">${isBooked?'Booked':'Available'}</span>`;
+    if(!isBooked){
+      el.onclick=()=>{
+        document.querySelectorAll('.time-slot').forEach(ts=>ts.classList.remove('selected'));
+        el.classList.add('selected');
+        state.booking.time=timeStr;
+        const nb=document.getElementById('s2-next');
+        nb.disabled=false;nb.style.opacity='1';
+      };
+    }
+    grid.appendChild(el);
+  }
+}
+function checkStep3(){
+  const n=document.getElementById('b-name').value.trim();
+  const p=document.getElementById('b-phone').value.trim();
+  const e=document.getElementById('b-email').value.trim();
+  const nb=document.getElementById('s3-next');
+  const ok=n&&p&&e;
+  nb.disabled=!ok;nb.style.opacity=ok?'1':'.4';
+  if(ok){
+    state.booking.name=n;state.booking.phone=p;state.booking.email=e;
+    state.booking.pickup=document.getElementById('b-pickup').value;
+    state.booking.dropoff=document.getElementById('b-dropoff').value;
+    state.booking.notes=document.getElementById('b-notes').value;
+  }
+}
+function renderSummary(){
+  const b=state.booking;
+  const dateFormatted=b.date?new Date(b.date+'T12:00:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}):'—';
+  const rows=[
+    ['Service',b.service||'—'],
+    ['Date',dateFormatted],
+    ['Time',b.time||'—'],
+    ['Name',b.name||'—'],
+    ['Phone',b.phone||'—'],
+    ['Email',b.email||'—'],
+    ['Pickup',b.pickup||'TBD'],
+    ['Drop-off',b.dropoff||'TBD'],
+  ];
+  if(b.notes) rows.push(['Notes',b.notes]);
+  document.getElementById('booking-summary').innerHTML=rows.map(([l,v])=>`<div class="bs-row"><span class="bs-lbl">${l}</span><span class="bs-val">${v}</span></div>`).join('');
+}
+function submitBooking(){
+  const b=state.booking;
+  const newEntry={
+    id:Date.now(),
+    name:b.name,phone:b.phone,service:b.service,
+    date:b.date,time:b.time,status:'pending',
+    pickup:b.pickup||'TBD',dropoff:b.dropoff||'TBD'
+  };
+  state.bookings.unshift(newEntry);
+  // hide steps bar
+  document.querySelectorAll('.bstep').forEach(el=>el.classList.remove('active'));
+  document.getElementById('bstep-done').classList.add('active');
+  document.getElementById('steps-bar').style.display='none';
+}
+
+// ─── DASHBOARD ───
+function renderDashboard(){
+  renderBookingsList();
+  renderDaysSchedule();
+  renderBlockedDates();
+}
+function renderBookingsList(){
+  const list=document.getElementById('bookings-list');
+  if(!list) return;
+  const upcoming=state.bookings.filter(b=>b.date>=new Date().toISOString().slice(0,10)).sort((a,b)=>a.date.localeCompare(b.date));
+  list.innerHTML=upcoming.map(b=>{
+    const d=new Date(b.date+'T12:00:00');
+    const day=d.getDate();
+    const mon=d.toLocaleDateString('en-US',{month:'short'}).toUpperCase();
+    const statusClass=`status-${b.status}`;
+    return`<div class="booking-item">
+      <div class="bi-date-box"><span class="bi-date-d gold-text">${day}</span><span class="bi-date-m">${mon}</span></div>
+      <div class="bi-info">
+        <div class="bi-name">${b.name}</div>
+        <div class="bi-meta">${b.time} · ${b.phone}</div>
+        <div class="bi-meta">${b.pickup} → ${b.dropoff}</div>
+        <span class="bi-svc">${b.service}</span>
+      </div>
+      <div class="bi-status ${statusClass}">${b.status}</div>
+    </div>`;
+  }).join('');
+}
+function renderDaysSchedule(){
+  const container=document.getElementById('days-schedule');
+  if(!container) return;
+  const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const times=[];
+  for(let h=0;h<24;h++){
+    for(let m=0;m<60;m+=30){
+      const hh=String(h).padStart(2,'0');
+      const mm=String(m).padStart(2,'0');
+      times.push(`${hh}:${mm}`);
+    }
+  }
+  const timeOpts=times.map(t=>`<option value="${t}">${formatTime(t)}</option>`).join('');
+  container.innerHTML=days.map(day=>{
+    const cfg=state.availability.days[day];
+    const checkedAttr=cfg.on?'checked':'';
+    const disAttr=cfg.on?'':'disabled';
+    return`<div class="day-row">
+      <label class="day-toggle"><input type="checkbox" ${checkedAttr} onchange="toggleDay('${day}',this)"><div class="toggle-slider"></div></label>
+      <span class="day-name">${day}</span>
+      <div class="time-range">
+        <select class="time-select" id="start-${day}" ${disAttr} onchange="updateDayTime('${day}','start',this.value)">${times.map(t=>`<option value="${t}" ${t===cfg.start?'selected':''}>${formatTime(t)}</option>`).join('')}</select>
+        <span class="time-dash">–</span>
+        <select class="time-select" id="end-${day}" ${disAttr} onchange="updateDayTime('${day}','end',this.value)">${times.map(t=>`<option value="${t}" ${t===cfg.end?'selected':''}>${formatTime(t)}</option>`).join('')}</select>
+      </div>
+    </div>`;
+  }).join('');
+}
+function formatTime(t){
+  const[h,m]=t.split(':').map(Number);
+  const ap=h>=12?'PM':'AM';
+  const h12=h%12||12;
+  return`${h12}:${String(m).padStart(2,'0')} ${ap}`;
+}
+function toggleDay(day,el){
+  state.availability.days[day].on=el.checked;
+  const s=document.getElementById('start-'+day);
+  const e=document.getElementById('end-'+day);
+  if(s){s.disabled=!el.checked;e.disabled=!el.checked;}
+}
+function updateDayTime(day,which,val){state.availability.days[day][which]=val;}
+function setSlot(el,val){
+  document.querySelectorAll('.slot-opt').forEach(o=>o.classList.remove('active'));
+  el.classList.add('active');
+  state.availability.slotMinutes=parseInt(val);
+}
+function renderBlockedDates(){
+  const list=document.getElementById('blocked-list');
+  if(!list) return;
+  list.innerHTML=state.availability.blockedDates.map(d=>`<div class="blocked-date-item"><span class="bd-date">${new Date(d+'T12:00:00').toLocaleDateString('en-US',{weekday:'short',month:'long',day:'numeric',year:'numeric'})}</span><button class="bd-del" onclick="removeBlockedDate('${d}')">Remove</button></div>`).join('');
+}
+function addBlockedDate(){
+  const inp=document.getElementById('block-date-input');
+  const val=inp.value;
+  if(!val) return;
+  if(!state.availability.blockedDates.includes(val)){
+    state.availability.blockedDates.push(val);
+    state.availability.blockedDates.sort();
+  }
+  inp.value='';
+  renderBlockedDates();
+}
+function removeBlockedDate(d){
+  state.availability.blockedDates=state.availability.blockedDates.filter(x=>x!==d);
+  renderBlockedDates();
+}
+function saveAvailability(){
+  alert('Availability saved! Your booking calendar will reflect these settings.');
+  renderCalendar();
+}
+function switchDashTab(id,btn){
+  document.querySelectorAll('.dash-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.dash-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('dt-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+
+const contactForm = document.getElementById('contactForm');
+if (contactForm) {
+  contactForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const submitBtn = document.getElementById('submitBtn');
+    const formMessage = document.getElementById('formMessage');
+    const originalBtnText = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+    formMessage.style.display = 'none';
+
+    const payload = {
+      name: contactForm.name.value,
+      email: contactForm.email.value,
+      phone: contactForm.phone.value,
+      service: contactForm.service.value,
+      message: contactForm.message.value
+    };
+
+    try {
+      const response = await fetch(contactForm.action, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await response.json();
+      if (response.ok && data.success) {
+        formMessage.textContent = data.message || 'Thank you. Your inquiry was sent successfully.';
+        formMessage.style.color = 'var(--gold)';
+        contactForm.reset();
+      } else {
+        throw new Error(data.error || 'Form submission failed');
+      }
+    } catch (error) {
+      formMessage.textContent = 'Sorry, there was an error sending your inquiry. Please call us directly.';
+      formMessage.style.color = '#d97a7a';
+    } finally {
+      formMessage.style.display = 'block';
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalBtnText;
+    }
+  });
+}
+</script>
 </body>
 </html>
