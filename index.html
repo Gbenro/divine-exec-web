@@ -62,6 +62,7 @@ nav{
 .mobile-menu{
   position:absolute;top:60px;left:0;right:0;
   background:rgba(10,10,10,.98);
+  z-index:260;
   border-bottom:1px solid var(--gold-border);
   padding:0;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s
 }
@@ -367,20 +368,21 @@ footer{background:var(--black);border-top:1px solid var(--gold-border);padding:3
   </button>
   <!-- desktop links -->
   <nav class="nav-desktop">
-    <a onclick="window.location.href='index.html';scrollTo('services')">Services</a>
-    <a onclick="window.location.href='index.html';scrollTo('about')">About</a>
-    <a onclick="window.location.href='index.html';scrollTo('testimonials')">Reviews</a>
-    <a onclick="window.location.href='index.html';scrollTo('contact')">Contact</a>
+    <a href="#services" data-scroll-target="services">Services</a>
+    <a href="#about" data-scroll-target="about">About</a>
+    <a href="#testimonials" data-scroll-target="testimonials">Reviews</a>
+    <a href="#contact" data-scroll-target="contact">Contact</a>
     <button class="nav-cta-btn" onclick="window.location.href='booking.html'">Book a Ride</button>
   </nav>
 </nav>
 <!-- mobile menu drawer -->
 <div class="mobile-menu" id="mobile-menu">
-  <a onclick="closeMenu();window.location.href='index.html';scrollTo('services')">Services</a>
-  <a onclick="closeMenu();window.location.href='index.html';scrollTo('about')">About</a>
-  <a onclick="closeMenu();window.location.href='index.html';scrollTo('testimonials')">Reviews</a>
-  <a onclick="closeMenu();window.location.href='index.html';scrollTo('contact')">Contact</a>
-  <a onclick="closeMenu();window.location.href='booking.html'">Book a Ride</a>
+  <a href="#services" data-scroll-target="services">Services</a>
+  <a href="#about" data-scroll-target="about">About</a>
+  <a href="#testimonials" data-scroll-target="testimonials">Reviews</a>
+  <a href="#contact" data-scroll-target="contact">Contact</a>
+  <a href="booking.html">Book a Ride</a>
+  <a href="#" onclick="event.preventDefault();closeMenu();showPage('admin-login')">Admin Login</a>
 </div>
 
 <!-- ═══════════════════════════════════════
@@ -592,10 +594,11 @@ footer{background:var(--black);border-top:1px solid var(--gold-border);padding:3
       <small>Premium Executive Transportation · Chicago</small>
     </div>
     <div class="footer-links">
-      <a onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">Services</a>
-      <a onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">About</a>
-      <a onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contact</a>
+      <a href="#services" data-scroll-target="services">Services</a>
+      <a href="#about" data-scroll-target="about">About</a>
+      <a href="#contact" data-scroll-target="contact">Contact</a>
       <a onclick="window.location.href='booking.html'">Book Now</a>
+      <a href="#" onclick="event.preventDefault();showPage('admin-login')">Admin Login</a>
     </div>
     <div class="footer-copy">© 2026 Divine Executive Chauffeurs LLC. All rights reserved.</div>
   </footer>
@@ -766,12 +769,37 @@ footer{background:var(--black);border-top:1px solid var(--gold-border);padding:3
 <!-- ═══════════════════════════════════════
      PAGE: OWNER DASHBOARD
 ═══════════════════════════════════════ -->
+<div id="page-admin-login" class="page">
+  <section style="padding:38px 20px 80px;max-width:520px;margin:0 auto">
+    <div class="section-subtitle">Restricted Access</div>
+    <h2 class="section-title">Admin Login</h2>
+    <div class="availability-shell">
+      <div class="avail-section" style="margin-bottom:0">
+        <form id="admin-login-form" style="display:flex;flex-direction:column;gap:14px">
+          <div class="form-field">
+            <label class="field-label" for="admin-user">Username</label>
+            <input id="admin-user" type="text" class="field-input" autocomplete="username" required>
+          </div>
+          <div class="form-field">
+            <label class="field-label" for="admin-pass">Password</label>
+            <input id="admin-pass" type="password" class="field-input" autocomplete="current-password" required>
+          </div>
+          <div id="admin-login-message" style="display:none;font-size:.66rem;color:#d97a7a;letter-spacing:.08em"></div>
+          <button class="btn-gold" type="submit">Access Dashboard</button>
+          <button class="btn-outline" type="button" onclick="showPage('main')">Back to Site</button>
+        </form>
+      </div>
+    </div>
+  </section>
+</div>
+
 <div id="page-dashboard" class="page">
   <div class="dash-topbar">
     <div class="dash-title gold-text">
       <small>Divine Executive Chauffeurs</small>
     </div>
-    <button class="dash-badge" onclick="window.location.href='index.html'">← Back to Site</button>
+    <button class="dash-badge" onclick="showPage('main')">← Back to Site</button>
+    <button class="dash-badge" onclick="logoutAdmin()">Log out</button>
   </div>
 
   <div class="dash-tabs">
@@ -858,6 +886,11 @@ footer{background:var(--black);border-top:1px solid var(--gold-border);padding:3
 // ─── STATE ───
 const state={
   currentPage:'main',
+  admin:{
+    isAuthed:localStorage.getItem('adminAuthed')==='1',
+    username:'admin',
+    password:'Divine2026!'
+  },
   booking:{service:'',date:null,time:'',name:'',phone:'',email:'',pickup:'',dropoff:'',notes:''},
   cal:{year:2026,month:4},
   availability:{
@@ -883,6 +916,9 @@ const state={
 
 // ─── PAGE ROUTING ───
 function showPage(p){
+  if(p==='dashboard' && !state.admin.isAuthed){
+    p='admin-login';
+  }
   document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
   document.getElementById('page-'+p).classList.add('active');
   window.scrollTo(0,0);
@@ -891,6 +927,17 @@ function showPage(p){
 }
 function scrollTo(id){
   setTimeout(()=>{const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth'})},50);
+}
+function wireNavLinks(){
+  document.querySelectorAll('[data-scroll-target]').forEach(link=>{
+    link.addEventListener('click',e=>{
+      e.preventDefault();
+      const target=link.getAttribute('data-scroll-target');
+      closeMenu();
+      showPage('main');
+      scrollTo(target);
+    });
+  });
 }
 
 // ─── NAV ───
@@ -903,6 +950,31 @@ function toggleMenu(){
 function closeMenu(){
   document.getElementById('ham-btn').classList.remove('open');
   document.getElementById('mobile-menu').classList.remove('open');
+}
+function logoutAdmin(){
+  state.admin.isAuthed=false;
+  localStorage.removeItem('adminAuthed');
+  showPage('main');
+}
+function setupAdminLogin(){
+  const form=document.getElementById('admin-login-form');
+  if(!form) return;
+  form.addEventListener('submit',e=>{
+    e.preventDefault();
+    const user=document.getElementById('admin-user').value.trim();
+    const pass=document.getElementById('admin-pass').value;
+    const msg=document.getElementById('admin-login-message');
+    if(user===state.admin.username && pass===state.admin.password){
+      state.admin.isAuthed=true;
+      localStorage.setItem('adminAuthed','1');
+      msg.style.display='none';
+      form.reset();
+      showPage('dashboard');
+      return;
+    }
+    msg.textContent='Invalid credentials. Please try again.';
+    msg.style.display='block';
+  });
 }
 
 // ─── BOOKING FLOW ───
@@ -1243,6 +1315,8 @@ if (contactForm) {
     }
   });
 }
+wireNavLinks();
+setupAdminLogin();
 </script>
 </body>
 </html>
