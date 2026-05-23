@@ -60,9 +60,9 @@ nav{
 .hamburger.open span:nth-child(2){opacity:0}
 .hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
 .mobile-menu{
-  position:absolute;top:60px;left:0;right:0;
+  position:fixed;top:60px;left:0;right:0;
   background:rgba(10,10,10,.98);
-  z-index:260;
+  z-index:1000;
   border-bottom:1px solid var(--gold-border);
   padding:0;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s
 }
@@ -940,6 +940,15 @@ function wireNavLinks(){
   });
 }
 
+function handleInitialRoute(){
+  const params=new URLSearchParams(window.location.search);
+  const view=params.get('view');
+  if(view==='booking'){
+    showPage('booking');
+    initBooking();
+  }
+}
+
 // ─── NAV ───
 function toggleMenu(){
   const btn=document.getElementById('ham-btn');
@@ -1317,6 +1326,7 @@ if (contactForm) {
 }
 wireNavLinks();
 setupAdminLogin();
+handleInitialRoute();
 </script>
 </body>
 </html>
