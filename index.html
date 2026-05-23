@@ -889,7 +889,8 @@ const state={
   admin:{
     isAuthed:localStorage.getItem('adminAuthed')==='1',
     username:'admin',
-    password:'Divine2026!'
+    password:'Divine2026!',
+    secret:localStorage.getItem('adminSecret')||''
   },
   booking:{service:'',date:null,time:'',name:'',phone:'',email:'',pickup:'',dropoff:'',notes:''},
   cal:{year:2026,month:4},
@@ -962,7 +963,9 @@ function closeMenu(){
 }
 function logoutAdmin(){
   state.admin.isAuthed=false;
+  state.admin.secret='';
   localStorage.removeItem('adminAuthed');
+  localStorage.removeItem('adminSecret');
   showPage('main');
 }
 function setupAdminLogin(){
@@ -975,10 +978,13 @@ function setupAdminLogin(){
     const msg=document.getElementById('admin-login-message');
     if(user===state.admin.username && pass===state.admin.password){
       state.admin.isAuthed=true;
+      state.admin.secret=pass;
       localStorage.setItem('adminAuthed','1');
+      localStorage.setItem('adminSecret',pass);
       msg.style.display='none';
       form.reset();
       showPage('dashboard');
+      fetchRealBookings(pass);
       return;
     }
     msg.textContent='Invalid credentials. Please try again.';
@@ -1199,6 +1205,38 @@ function renderDashboard(){
   renderBookingsList();
   renderDaysSchedule();
   renderBlockedDates();
+  if(state.admin.secret) fetchRealBookings(state.admin.secret);
+}
+async function fetchRealBookings(secret){
+  const list=document.getElementById('bookings-list');
+  if(list) list.innerHTML='<div style="color:var(--white-muted);font-size:.72rem;padding:16px 0">Loading bookings…</div>';
+  try{
+    const res=await fetch('/api/bookings?secret='+encodeURIComponent(secret));
+    if(!res.ok) throw new Error('API error '+res.status);
+    const data=await res.json();
+    if(data.bookings && data.bookings.length){
+      state.bookings=data.bookings;
+    } else if(data.warning){
+      if(list) list.innerHTML='<div style="color:var(--white-muted);font-size:.72rem;padding:16px 0">'+data.warning+'</div>';
+      return;
+    }
+    renderBookingsList();
+    updateKPIs();
+  }catch(e){
+    console.error('fetchRealBookings failed:',e);
+    if(list) list.innerHTML='<div style="color:var(--white-muted);font-size:.72rem;padding:16px 0">Could not load bookings. Check Airtable config.</div>';
+  }
+}
+function updateKPIs(){
+  const today=new Date().toISOString().slice(0,10);
+  const thisMonth=today.slice(0,7);
+  const upcoming=state.bookings.filter(b=>b.date>=today);
+  const thisMonthCount=state.bookings.filter(b=>b.date&&b.date.startsWith(thisMonth)).length;
+  const pending=state.bookings.filter(b=>b.status==='pending').length;
+  const kpis=document.querySelectorAll('.kpi-n');
+  if(kpis[0]) kpis[0].textContent=upcoming.length;
+  if(kpis[1]) kpis[1].textContent=thisMonthCount;
+  if(kpis[2]) kpis[2].textContent=pending;
 }
 function renderBookingsList(){
   const list=document.getElementById('bookings-list');
